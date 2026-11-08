@@ -14,7 +14,7 @@
 
 <br>
 
-<a href="https://pawang.dev"><img alt="Website" src="https://img.shields.io/badge/pawang.dev-FF8A3D?style=for-the-badge&labelColor=14213D"></a>
-<a href="https://pawang.dev"><img alt="Konsultasi gratis" src="https://img.shields.io/badge/KONSULTASI_GRATIS-A7C4A0?style=for-the-badge&labelColor=14213D"></a>
+<a href="https://www.pawang.dev"><img alt="Website" src="https://img.shields.io/badge/pawang.dev-FF8A3D?style=for-the-badge&labelColor=14213D"></a>
+<a href="https://www.pawang.dev/kontak-pawang"><img alt="Konsultasi gratis" src="https://img.shields.io/badge/KONSULTASI_GRATIS-A7C4A0?style=for-the-badge&labelColor=14213D"></a>
 
 </div>
