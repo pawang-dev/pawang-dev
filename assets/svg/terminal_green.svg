@@ -19,7 +19,7 @@ text{font-family:'JetBrains Mono','SF Mono','Menlo','Consolas','DejaVu Sans Mono
 <text x="100" y="27" class="d">pawang-dev/README.md</text>
 <text x="932" y="27" text-anchor="end" class="m">tty1 · jinak</text>
 <line x1="0" y1="42" x2="960" y2="42" stroke="#12361c"/>
-<g filter="url(#glow)"><text x="56" y="82" style="font-size:17px" class="b">112 kontribusi dalam setahun terakhir</text></g>
+<g filter="url(#glow)"><text x="56" y="82" style="font-size:17px" class="b">114 kontribusi dalam setahun terakhir</text></g>
 <rect x="784" y="62" width="120" height="28" rx="4" fill="none" stroke="#22a24c"/>
 <text x="844" y="81" text-anchor="middle" class="d">Setahun ▾</text>
 <text x="56" y="114" class="m" style="font-size:11px">Nov</text>
@@ -420,7 +420,7 @@ text{font-family:'JetBrains Mono','SF Mono','Menlo','Consolas','DejaVu Sans Mono
 <text x="196" y="571" class="b" style="font-size:16px">0</text>
 <rect x="308" y="536" width="112" height="42" rx="4" fill="none" stroke="#12361c"/>
 <text x="318" y="552" class="m" style="font-size:10px">KOMIT</text>
-<text x="318" y="571" class="b" style="font-size:16px">61</text>
+<text x="318" y="571" class="b" style="font-size:16px">63</text>
 <rect x="430" y="536" width="112" height="42" rx="4" fill="none" stroke="#12361c"/>
 <text x="440" y="552" class="m" style="font-size:10px">PENGIKUT</text>
 <text x="440" y="571" class="b" style="font-size:16px">0</text>
