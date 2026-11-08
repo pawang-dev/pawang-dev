@@ -268,8 +268,27 @@ text{{font-family:{MONO};font-size:14px;fill:{c['text']}}}
     return "\n".join(o)
 
 
+BUTTONS = [  # (nama file, teks, warna latar, warna teks)
+    ("btn-website.svg", "PAWANG.DEV", "#FF8A3D", "#14213D"),
+    ("btn-konsultasi.svg", "KONSULTASI GRATIS", "#A7C4A0", "#14213D"),
+]
+
+
+def button_svg(label, bg, fg):
+    """Tombol SVG lokal (pengganti badge shields.io, tanpa ketergantungan layanan luar)."""
+    w, h = int(9.6 * len(label)) + 44, 36
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
+            f'role="img" aria-label="{escape(label)}"><title>{escape(label)}</title>'
+            f'<rect width="{w}" height="{h}" rx="8" fill="{bg}"/>'
+            f'<text x="{w/2}" y="23" text-anchor="middle" font-family="{MONO}" font-size="13" '
+            f'font-weight="700" letter-spacing="1.5" fill="{fg}">{escape(label)}</text></svg>')
+
+
 def main():
     data = get_data()
+    (ROOT / "assets" / "svg").mkdir(parents=True, exist_ok=True)
+    for name, label, bg, fg in BUTTONS:
+        (ROOT / "assets" / "svg" / name).write_text(button_svg(label, bg, fg), encoding="utf-8")
     mascot, logo = b64("maskot-dev.png"), b64("logo-pawang.png")
     for theme in ("dark", "light"):
         out = ROOT / "assets" / "svg" / f"{theme}_mode.svg"

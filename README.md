@@ -12,9 +12,9 @@
 <!-- Versi 2: terminal hijau. Hapus blok ini kalau hanya mau versi neofetch. -->
 <img alt="Pawang.dev — terminal hijau" src="assets/svg/terminal_green.svg" width="900">
 
-<br>
+<br><br>
 
-<a href="https://www.pawang.dev"><img alt="Website" src="https://img.shields.io/badge/pawang.dev-FF8A3D?style=for-the-badge&labelColor=14213D"></a>
-<a href="https://www.pawang.dev/kontak-pawang"><img alt="Konsultasi gratis" src="https://img.shields.io/badge/KONSULTASI_GRATIS-A7C4A0?style=for-the-badge&labelColor=14213D"></a>
+<a href="https://www.pawang.dev"><img alt="Website Pawang.dev" src="assets/svg/btn-website.svg" height="36"></a>&nbsp;
+<a href="https://www.pawang.dev/kontak-pawang"><img alt="Konsultasi gratis" src="assets/svg/btn-konsultasi.svg" height="36"></a>
 
 </div>
