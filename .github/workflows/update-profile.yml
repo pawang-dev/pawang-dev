@@ -1,0 +1,42 @@
+name: Update profile SVG
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"   # tiap 12 jam
+  workflow_dispatch:          # bisa dijalankan manual dari tab Actions
+  push:
+    paths:
+      - "scripts/*.py"
+      - "assets/images/**"
+      - "assets/data/**"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Generate SVG
+        env:
+          GH_USER: pawang-dev
+          # Opsional: PAT dengan scope read:user supaya kontribusi privat ikut terhitung.
+          # Kalau secret tidak diisi, dipakai GITHUB_TOKEN (hanya data publik).
+          GH_TOKEN: ${{ secrets.GH_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/build.py
+          python scripts/build_terminal.py
+
+      - name: Commit jika ada perubahan
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/svg/*.svg
+          git diff --cached --quiet || git commit -m "chore: update profile svg"
+          git push
