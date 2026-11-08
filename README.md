@@ -7,10 +7,10 @@
   <img alt="Pawang.dev — Digitalmu liar? Serahkan ke Pawang." src="assets/svg/dark_mode.svg" width="900">
 </picture>
 
-<br><br>
+<!-- br><br -->
 
 <!-- Versi 2: terminal hijau. Hapus blok ini kalau hanya mau versi neofetch. -->
-<img alt="Pawang.dev — terminal hijau" src="assets/svg/terminal_green.svg" width="900">
+<!-- img alt="Pawang.dev — terminal hijau" src="assets/svg/terminal_green.svg" width="900" -->
 
 <br><br>
 
