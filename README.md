@@ -10,7 +10,7 @@
 </a><br>
 <a href="https://www.pawang.dev"><img alt="Website Pawang.dev" src="assets/svg/bar-website.svg" width="50%" align="top"></a><a href="https://www.pawang.dev/kontak-pawang"><img alt="Konsultasi gratis" src="assets/svg/bar-konsultasi.svg" width="50%" align="top"></a>
 
-<!-- Versi 2: terminal hijau. Untuk mengaktifkan, hapus baris pembuka dan penutup komentar di bawah ini.! -->
+<!-- Versi 2: terminal hijau. Untuk mengaktifkan, hapus baris pembuka dan penutup komentar di bawah ini.!! -->
 <!--
 <br><br>
 <a href="https://www.pawang.dev"><img alt="Pawang.dev — terminal hijau" src="assets/svg/terminal_green.svg" width="100%" align="top"></a><br>
