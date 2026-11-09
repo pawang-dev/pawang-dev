@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04   # dipatok eksplisit (ubuntu-latest sedang pindah ke 26.04)
     steps:
       # Token GitHub App (hanya izin contents: write, berlaku 1 jam)
       - name: Buat token GitHub App
@@ -56,7 +56,7 @@ jobs:
 
       - name: Commit dan push jika ada perubahan
         run: |
-          git add assets/svg/*.svg
+          git add -A assets/svg
           if git diff --cached --quiet; then
             echo "Tidak ada perubahan."
           else

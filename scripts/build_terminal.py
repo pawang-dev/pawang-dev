@@ -10,7 +10,7 @@ from html import escape
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build import MONTHS, ROOT, USERNAME, get_data, idn, level  # noqa: E402
+from build import MONTHS, ROOT, USERNAME, card_path, get_data, idn, level  # noqa: E402
 
 MONO = "'JetBrains Mono','SF Mono','Menlo','Consolas','DejaVu Sans Mono',monospace"
 W, H = 960, 690
@@ -28,8 +28,8 @@ ROWS_INFO = [
     ("PAKET", "Jinak → Piawai → Sakti"),
     ("NILAI", "Tenang · Paham · Jinak"),
     ("UNTUK", "UMKM Indonesia"),
+    ("KONTAK", "halo@pawang.dev"),
 ]
-BUTTONS = ["WEBSITE", "KONSULTASI", "GITHUB"]
 
 
 def render(data):
@@ -52,7 +52,7 @@ text{{font-family:{MONO};font-size:13px;fill:{TXT}}}
 @keyframes pop{{from{{opacity:0}}to{{opacity:1}}}}
 @media (prefers-reduced-motion:reduce){{.cur,.cell{{animation:none}}}}
 </style>""")
-    a(f'<rect width="{W}" height="{H}" rx="14" fill="{BG}"/>')
+    a(f'<path d="{card_path(W, H)}" fill="{BG}"/>')
     # title bar
     a(f'<text x="28" y="27" class="m">●</text><text x="46" y="27" class="m">●</text><text x="64" y="27" class="m">●</text>')
     a(f'<text x="100" y="27" class="d">{USERNAME}/README.md</text>')
@@ -103,15 +103,8 @@ text{{font-family:{MONO};font-size:13px;fill:{TXT}}}
         a(f'<rect x="{bx}" y="{y-14}" width="112" height="42" rx="4" fill="none" stroke="{LINE}"/>')
         a(f'<text x="{bx+10}" y="{y+2}" class="m" style="font-size:10px">{k}</text>')
         a(f'<text x="{bx+10}" y="{y+21}" class="b" style="font-size:16px">{idn(v)}</text>')
-    # tombol
-    by = PY + PH - 54
-    bx = PX + 24
-    for label in BUTTONS:
-        w = 11 * len(label) + 34
-        a(f'<g filter="url(#glow)"><rect x="{bx}" y="{by}" width="{w}" height="30" rx="3" fill="{TXT}"/></g>')
-        a(f'<text x="{bx+w/2}" y="{by+20}" text-anchor="middle" class="b" style="fill:{BG};font-size:12px;letter-spacing:1px">{label}</text>')
-        bx += w + 14
-    a(f'<text x="{PX+PW-24}" y="{by+20}" text-anchor="end" class="d">~ $ <tspan class="cur">█</tspan></text>')
+    # prompt (tombol aksi ada di baris yang menempel di bawah kartu, lihat bar-*-green.svg)
+    a(f'<text x="{PX+24}" y="{PY+PH-22}" class="d">~ $ <tspan class="cur">█</tspan></text>')
 
     # ---- panel kanan (potret)
     QX, QY, QW, QH = 610, 296, 310, 350
@@ -147,9 +140,9 @@ text{{font-family:{MONO};font-size:13px;fill:{TXT}}}
     a(f'<text x="{QX+QW-22}" y="{QY+30}" text-anchor="end" class="m" style="font-size:11px">@{USERNAME}</text>')
 
     # scanline + vignette
-    a(f'<rect width="{W}" height="{H}" rx="14" fill="url(#scan)" pointer-events="none"/>')
-    a(f'<rect width="{W}" height="{H}" rx="14" fill="url(#vig)" pointer-events="none"/>')
-    a(f'<rect x=".5" y=".5" width="{W-1}" height="{H-1}" rx="14" fill="none" stroke="{DIM}" stroke-opacity=".6"/>')
+    a(f'<path d="{card_path(W, H)}" fill="url(#scan)" pointer-events="none"/>')
+    a(f'<path d="{card_path(W, H)}" fill="url(#vig)" pointer-events="none"/>')
+    a(f'<path transform="translate(.5 .5)" d="{card_path(W-1, H-1)}" fill="none" stroke="{DIM}" stroke-opacity=".6"/>')
     a('</svg>')
     return "\n".join(o)
 

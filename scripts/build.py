@@ -50,7 +50,7 @@ THEMES = {
 MONO = "'JetBrains Mono','SF Mono','Menlo','Consolas','DejaVu Sans Mono',monospace"
 
 SAMPLE_TOTAL = 1804   # total kontribusi pada data contoh
-W, H = 960, 600
+W, H = 960, 624
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
           "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]
 
@@ -182,8 +182,8 @@ text{{font-family:{MONO};font-size:14px;fill:{c['text']}}}
 @media (prefers-reduced-motion:reduce){{.cur,.tw,.cell{{animation:none}}}}
 </style>""")
     # jendela
-    a(f'<rect width="{W}" height="{H}" rx="14" fill="{c["bg"]}"/>')
-    a(f'<rect x=".5" y=".5" width="{W-1}" height="{H-1}" rx="14" fill="none" stroke="{c["line"]}"/>')
+    a(f'<path d="{card_path(W, H)}" fill="{c["bg"]}"/>')
+    a(f'<path transform="translate(.5 .5)" d="{card_path(W-1, H-1)}" fill="none" stroke="{c["line"]}"/>')
     # title bar
     a(f'<path d="M0 14a14 14 0 0 1 14-14h{W-28}a14 14 0 0 1 14 14v34H0z" fill="{c["panel"]}"/>')
     a(f'<line x1="0" y1="48" x2="{W}" y2="48" stroke="{c["line"]}"/>')
@@ -268,27 +268,60 @@ text{{font-family:{MONO};font-size:14px;fill:{c['text']}}}
     return "\n".join(o)
 
 
-BUTTONS = [  # (nama file, teks, warna latar, warna teks)
-    ("btn-website.svg", "PAWANG.DEV", "#FF8A3D", "#14213D"),
-    ("btn-konsultasi.svg", "KONSULTASI GRATIS", "#A7C4A0", "#14213D"),
+CARD_R = 14
+
+
+def card_path(w, h, r=CARD_R):
+    """Bentuk kartu: sudut atas membulat, sudut bawah rata (karena tombol menempel di bawahnya)."""
+    return f"M0 {r}A{r} {r} 0 0 1 {r} 0H{w-r}A{r} {r} 0 0 1 {w} {r}V{h}H0Z"
+
+
+# Baris aksi yang menempel di bawah kartu: (nama file, teks, sisi, latar, teks, hijau?)
+BARS = [
+    ("bar-website.svg", "PAWANG.DEV", "left", "#FF8A3D", "#14213D", False),
+    ("bar-konsultasi.svg", "KONSULTASI GRATIS", "right", "#A7C4A0", "#14213D", False),
+    ("bar-website-green.svg", "PAWANG.DEV", "left", "#4dff7c", "#040905", True),
+    ("bar-konsultasi-green.svg", "KONSULTASI GRATIS", "right", "#22a24c", "#040905", True),
 ]
 
 
-def button_svg(label, bg, fg):
-    """Tombol SVG lokal (pengganti badge shields.io, tanpa ketergantungan layanan luar)."""
-    w, h = int(9.6 * len(label)) + 44, 36
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
-            f'role="img" aria-label="{escape(label)}"><title>{escape(label)}</title>'
-            f'<rect width="{w}" height="{h}" rx="8" fill="{bg}"/>'
-            f'<text x="{w/2}" y="23" text-anchor="middle" font-family="{MONO}" font-size="13" '
-            f'font-weight="700" letter-spacing="1.5" fill="{fg}">{escape(label)}</text></svg>')
+def bar_svg(label, side, bg, fg, green=False):
+    """Separuh baris aksi (480x56). Dua separuh ditaruh bersebelahan di README,
+    masing-masing dibungkus <a> sehingga tiap tombol punya link sendiri."""
+    w, h, r = 480, 56, CARD_R
+    d = (f"M0 0H{w}V{h}H{r}A{r} {r} 0 0 1 0 {h-r}Z" if side == "left"
+         else f"M0 0H{w}V{h-r}A{r} {r} 0 0 1 {w-r} {h}H0Z")
+    tw = len(label) * 9.9
+    x0 = (w - (tw + 8 + 11)) / 2
+    divider_x = w - 1 if side == "left" else 0
+    extra_defs = extra_overlay = ""
+    if green:
+        extra_defs = ('<pattern id="sc" width="4" height="4" patternUnits="userSpaceOnUse">'
+                      '<rect width="4" height="1.4" fill="#000" opacity=".22"/></pattern>')
+        extra_overlay = f'<path d="{d}" fill="url(#sc)"/>'
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
+        f'role="img" aria-label="{escape(label)}"><title>{escape(label)}</title>'
+        f'<defs>{extra_defs}</defs>'
+        f'<path d="{d}" fill="{bg}"/>{extra_overlay}'
+        f'<rect x="{divider_x}" y="0" width="1" height="{h}" fill="#000" opacity=".22"/>'
+        f'<text x="{x0:.1f}" y="33" font-family="{MONO}" font-size="14" font-weight="700" '
+        f'letter-spacing="1.5" fill="{fg}">{escape(label)}</text>'
+        f'<g transform="translate({x0 + tw + 8:.1f} 23)">'
+        f'<path d="M0 11L10 1M2 1H10V9" fill="none" stroke="{fg}" stroke-width="2" '
+        f'stroke-linecap="round" stroke-linejoin="round"/>'
+        f'<animateTransform attributeName="transform" type="translate" additive="sum" '
+        f'values="0 0;2 -2;0 0" dur="1.8s" repeatCount="indefinite"/></g>'
+        f'</svg>')
 
 
 def main():
     data = get_data()
     (ROOT / "assets" / "svg").mkdir(parents=True, exist_ok=True)
-    for name, label, bg, fg in BUTTONS:
-        (ROOT / "assets" / "svg" / name).write_text(button_svg(label, bg, fg), encoding="utf-8")
+    for name, label, side, bg, fg, green in BARS:
+        (ROOT / "assets" / "svg" / name).write_text(bar_svg(label, side, bg, fg, green), encoding="utf-8")
+    for old in ("btn-website.svg", "btn-konsultasi.svg"):   # sisa versi lama
+        (ROOT / "assets" / "svg" / old).unlink(missing_ok=True)
     mascot, logo = b64("maskot-dev.png"), b64("logo-pawang.png")
     for theme in ("dark", "light"):
         out = ROOT / "assets" / "svg" / f"{theme}_mode.svg"
