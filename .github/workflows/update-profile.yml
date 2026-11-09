@@ -8,6 +8,7 @@ on:
     paths:
       - "scripts/*.py"
       - "social.json"
+      - "skills.json"
       - "assets/images/**"
       - "assets/data/**"
 
@@ -47,6 +48,7 @@ jobs:
           python scripts/build_terminal.py
           python scripts/build_templates.py
           python scripts/build_social.py
+          python scripts/build_skills.py
 
       - name: Atur identitas git sebagai bot
         env:

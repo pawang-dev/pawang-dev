@@ -1,0 +1,11 @@
+{
+  "_petunjuk": "Isi nama teknologi di 'skills' (daftar biasa) atau 'groups' (dikelompokkan). Kosong berarti bagian Skill Set tidak dibuat. Contoh lengkap: skills.example.json",
+  "_nama": "Nama mengikuti devicon (contoh: python, javascript, nodejs, docker, postgresql). Alias juga bisa (js, ts). Ikon kustom bawaan: googlesheets, whatsapp, gmail, excel, telegram.",
+  "_kustom": "Ikon sendiri: taruh file png/svg/webp/jpg di assets/images/skills/ lalu tulis namanya, atau {\"custom\": \"nama-file.png\", \"label\": \"Teks Tampil\"}.",
+  "style": "original",
+  "layout": "card",
+  "title": "Skill Set",
+  "subtitle": "dipilih untuk digital yang jinak",
+  "skills": [],
+  "groups": {}
+}

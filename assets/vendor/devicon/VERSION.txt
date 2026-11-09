@@ -1,0 +1,2 @@
+devicon 2.18.0
+https://github.com/devicons/devicon (lisensi MIT, lihat LICENSE)
