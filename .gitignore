@@ -23,7 +23,6 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
-.dev.vars
 *.pem
 *.key
 !*.public.key
