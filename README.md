@@ -70,6 +70,9 @@
 -->
 
 <!-- SOCIAL:START (dibuat otomatis dari social.json oleh scripts/build_social.py, jangan edit manual) -->
+<br><br>
+<h3 align="center">Profil Sosial Media</h3>
+<a href="https://www.tiktok.com/@pawang.dev"><img src="assets/svg/social/tiktok.svg" height="56" align="top" alt="Tiktok"></a>&nbsp;&nbsp;<a href="https://www.youtube.com/@pawangdev"><img src="assets/svg/social/youtube.svg" height="56" align="top" alt="Youtube"></a>&nbsp;&nbsp;<a href="https://www.linkedin.com/in/pawangdev"><img src="assets/svg/social/linkedin.svg" height="56" align="top" alt="Linkedin"></a>&nbsp;&nbsp;<a href="https://x.com/pawangdev"><img src="assets/svg/social/x.svg" height="56" align="top" alt="X"></a>&nbsp;&nbsp;<a href="https://www.pinterest.com/pawangdev/"><img src="assets/svg/social/pinterest.svg" height="56" align="top" alt="Pinterest"></a>
 <!-- SOCIAL:END -->
 
 </div>
