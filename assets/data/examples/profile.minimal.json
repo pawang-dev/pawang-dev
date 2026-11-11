@@ -1,0 +1,9 @@
+{
+  "$schema": "../schema/profile.schema.json",
+  "language": "en",
+  "name": "Your Name",
+  "tagline": "One line about what you do.",
+  "email": "you@example.com",
+  "sections": ["neofetch"],
+  "button_mode": "none"
+}

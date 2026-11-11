@@ -1,0 +1,388 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "profile.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "language": {
+      "enum": [
+        "id",
+        "en"
+      ],
+      "description": "Bahasa teks bawaan kartu (id atau en)"
+    },
+    "username": {
+      "type": "string",
+      "description": "Username GitHub. Kosong = pemilik repo (otomatis di GitHub Actions)",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nama brand atau nama kamu",
+      "minLength": 1,
+      "maxLength": 24
+    },
+    "suffix": {
+      "type": "string",
+      "description": "Akhiran nama yang diberi warna aksen, contoh: .dev",
+      "maxLength": 10
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domain tanpa https://, contoh: pawang.dev",
+      "maxLength": 40
+    },
+    "website": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "Tautan saat kartu diklik dan tombol pertama"
+    },
+    "email": {
+      "type": "string",
+      "description": "Alamat email kontak",
+      "maxLength": 50
+    },
+    "tagline": {
+      "type": "string",
+      "description": "Kalimat utama",
+      "maxLength": 60
+    },
+    "tagline_accent": {
+      "type": "string",
+      "description": "Bagian tagline yang diberi warna aksen (harus ada di dalam tagline)",
+      "maxLength": 60
+    },
+    "description": {
+      "description": "Deskripsi singkat, maksimal 2 baris",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Satu baris",
+          "maxLength": 56
+        },
+        {
+          "type": "array",
+          "description": "Maksimal 2 baris",
+          "items": {
+            "type": "string",
+            "description": "Satu baris",
+            "maxLength": 56
+          },
+          "maxItems": 2
+        }
+      ]
+    },
+    "audience": {
+      "type": "string",
+      "description": "Untuk siapa layananmu",
+      "maxLength": 40
+    },
+    "mode": {
+      "type": "string",
+      "description": "Kata suasana di kartu terminal hijau, contoh: jinak",
+      "maxLength": 16
+    },
+    "badge": {
+      "type": "string",
+      "description": "Teks kecil di pojok kanan atas kartu",
+      "maxLength": 20
+    },
+    "mascot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Nama maskot",
+          "maxLength": 14
+        },
+        "caption": {
+          "type": "string",
+          "description": "Keterangan di bawah maskot",
+          "maxLength": 30
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "description": "Bagian yang tampil di README, urutannya = urutan tampil",
+      "items": {
+        "enum": [
+          "hero",
+          "neofetch",
+          "terminal",
+          "brand",
+          "sheet",
+          "typing",
+          "skills",
+          "social"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "button_mode": {
+      "enum": [
+        "each",
+        "last",
+        "none"
+      ],
+      "description": "each = tombol di bawah tiap kartu, last = hanya kartu terakhir, none = tanpa tombol"
+    },
+    "buttons": {
+      "type": "array",
+      "description": "Satu atau dua tombol",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "url"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Teks tombol",
+            "maxLength": 24
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https?://",
+            "description": "URL lengkap diawali http:// atau https://"
+          }
+        }
+      },
+      "maxItems": 2
+    },
+    "info": {
+      "type": "array",
+      "description": "Baris info kartu neofetch dan terminal",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "value"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Label",
+            "maxLength": 12
+          },
+          "value": {
+            "type": "string",
+            "description": "Isi",
+            "maxLength": 52
+          },
+          "terminal": {
+            "type": "boolean",
+            "description": "false = tidak ditampilkan di kartu terminal hijau"
+          }
+        }
+      },
+      "maxItems": 7
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Perintah di baris prompt kartu neofetch",
+      "maxLength": 60
+    },
+    "hero": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "line1": {
+          "type": "string",
+          "description": "Baris 1 headline",
+          "maxLength": 22
+        },
+        "line2": {
+          "type": "string",
+          "description": "Baris 2 headline",
+          "maxLength": 26
+        },
+        "accent": {
+          "type": "string",
+          "description": "Bagian baris 2 yang diberi warna aksen",
+          "maxLength": 26
+        },
+        "chips": {
+          "type": "array",
+          "description": "Label kecil di bawah deskripsi",
+          "items": {
+            "type": "string",
+            "description": "Label",
+            "maxLength": 10
+          },
+          "maxItems": 6
+        }
+      }
+    },
+    "services": {
+      "type": "array",
+      "description": "Daftar layanan untuk kartu brand (maks 5 jika ada paket, 6 jika tidak)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title"
+        ],
+        "properties": {
+          "icon": {
+            "enum": [
+              "web",
+              "seo",
+              "sheet",
+              "otomasi",
+              "rawat",
+              "code",
+              "design",
+              "chart",
+              "chat",
+              "mail",
+              "star"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "description": "Nama layanan",
+            "maxLength": 18
+          },
+          "promise": {
+            "type": "array",
+            "description": "Janji layanan, maksimal 2 baris",
+            "items": {
+              "type": "string",
+              "description": "Satu baris",
+              "maxLength": 30
+            },
+            "maxItems": 2
+          },
+          "detail": {
+            "type": "string",
+            "description": "Rincian singkat",
+            "maxLength": 36
+          }
+        }
+      },
+      "maxItems": 6
+    },
+    "packages": {
+      "type": "array",
+      "description": "Paket, maksimal 3",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nama paket",
+            "maxLength": 9
+          },
+          "desc": {
+            "type": "string",
+            "description": "Keterangan",
+            "maxLength": 10
+          }
+        }
+      },
+      "maxItems": 3
+    },
+    "values": {
+      "type": "array",
+      "description": "Nilai brand, maksimal 3",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nilai",
+            "maxLength": 8
+          },
+          "desc": {
+            "type": "string",
+            "description": "Keterangan",
+            "maxLength": 16
+          }
+        }
+      },
+      "maxItems": 3
+    },
+    "sheet": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "labels": {
+          "type": "array",
+          "description": "Dua label: sebelum dan sesudah",
+          "items": {
+            "type": "string",
+            "description": "Label",
+            "maxLength": 16
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "messy": {
+          "type": "array",
+          "description": "Isi sel berantakan, maksimal 12",
+          "items": {
+            "type": "string",
+            "description": "Isi sel",
+            "maxLength": 14
+          },
+          "maxItems": 12
+        },
+        "caption": {
+          "type": "string",
+          "description": "Kalimat bawah",
+          "maxLength": 50
+        },
+        "accent": {
+          "type": "string",
+          "description": "Lanjutan kalimat bawah (berwarna aksen)",
+          "maxLength": 50
+        }
+      }
+    },
+    "typing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "Perintah yang diketik",
+          "maxLength": 60
+        },
+        "steps": {
+          "type": "array",
+          "description": "Langkah yang tampil setelah perintah",
+          "items": {
+            "type": "string",
+            "description": "Langkah",
+            "maxLength": 40
+          },
+          "maxItems": 6
+        },
+        "stats_command": {
+          "type": "string",
+          "description": "Perintah untuk blok statistik",
+          "maxLength": 30
+        }
+      }
+    }
+  }
+}

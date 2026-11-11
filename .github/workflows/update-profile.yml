@@ -1,27 +1,32 @@
-name: Update profile SVG
+name: Update profile
 
 on:
   schedule:
-    - cron: "0 */12 * * *"   # tiap 12 jam
-  workflow_dispatch:          # bisa dijalankan manual dari tab Actions
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
   push:
     paths:
-      - "scripts/*.py"
-      - "social.json"
-      - "skills.json"
-      - "assets/images/**"
       - "assets/data/**"
+      - "assets/images/**"
+      - "assets/vendor/**"
+      - "scripts/**"
+      - ".github/workflows/update-profile.yml"
 
-# GITHUB_TOKEN cukup read-only. Penulisan ke repo memakai token GitHub App di bawah.
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: update-profile
+  cancel-in-progress: false
 
 jobs:
   build:
-    runs-on: ubuntu-26.04   # dipatok eksplisit (ubuntu-latest sedang pindah ke 26.04)
+    runs-on: ubuntu-26.04
+    env:
+      HAS_APP: ${{ secrets.APP_CLIENT_ID != '' && secrets.APP_PRIVATE_KEY != '' }}
     steps:
-      # Token GitHub App (hanya izin contents: write, berlaku 1 jam)
       - name: Buat token GitHub App
+        if: env.HAS_APP == 'true'
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
@@ -31,26 +36,24 @@ jobs:
 
       - uses: actions/checkout@v7
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token || github.token }}
 
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
-      - name: Generate SVG
-        env:
-          GH_USER: pawang-dev
-          # Opsional: PAT dengan scope read:user supaya kontribusi privat ikut terhitung.
-          # Kalau secret tidak diisi, dipakai GITHUB_TOKEN (hanya data publik).
-          GH_TOKEN: ${{ secrets.GH_STATS_TOKEN || secrets.GITHUB_TOKEN }}
-        run: |
-          python scripts/build.py
-          python scripts/build_terminal.py
-          python scripts/build_templates.py
-          python scripts/build_social.py
-          python scripts/build_skills.py
+      - name: Pasang Pillow (potret pixel maskot)
+        run: python -m pip install --quiet pillow
 
-      - name: Atur identitas git sebagai bot
+      - name: Build
+        env:
+          GH_USER: ${{ github.repository_owner }}
+          # GH_STATS_TOKEN (opsional) membuat kontribusi privat ikut terhitung
+          GH_TOKEN: ${{ secrets.GH_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+        run: python scripts/build_all.py
+
+      - name: Identitas git (GitHub App)
+        if: env.HAS_APP == 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
@@ -59,12 +62,18 @@ jobs:
           git config user.name "${APP_SLUG}[bot]"
           git config user.email "${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
 
+      - name: Identitas git (bawaan)
+        if: env.HAS_APP != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Commit dan push jika ada perubahan
         run: |
-          git add -A assets/svg README.md
+          git add -A assets/svg assets/cache README.md
           if git diff --cached --quiet; then
             echo "Tidak ada perubahan."
           else
-            git commit -m "chore: update profile svg"
+            git commit -m "chore: update profile"
             git push
           fi

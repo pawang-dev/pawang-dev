@@ -1,0 +1,17 @@
+{
+  "$schema": "./schema/social.schema.json",
+  "style": "auto",
+  "title": "Profil Sosial Media",
+  "links": {
+    "instagram": "",
+    "tiktok": "",
+    "youtube": "",
+    "linkedin": "",
+    "facebook": "",
+    "x": "",
+    "threads": "",
+    "pinterest": "",
+    "discord": "",
+    "google-business-profile": ""
+  }
+}

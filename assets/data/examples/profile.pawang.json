@@ -1,0 +1,75 @@
+{
+  "$schema": "../schema/profile.schema.json",
+  "language": "id",
+  "username": "pawang-dev",
+  "name": "Pawang",
+  "suffix": ".dev",
+  "domain": "pawang.dev",
+  "website": "https://www.pawang.dev",
+  "email": "halo@pawang.dev",
+  "tagline": "Digitalmu liar? Serahkan ke Pawang.",
+  "tagline_accent": "Serahkan ke Pawang.",
+  "description": [
+    "Website, dashboard, dan sistem otomatis yang jinak,",
+    "rapi, dan gampang dipakai. Tanpa istilah ribet."
+  ],
+  "audience": "UMKM Indonesia",
+  "mode": "jinak",
+  "badge": "v1.0 · jinak",
+  "mascot": { "name": "Dev", "caption": "Maskot resmi Pawang" },
+  "sections": ["neofetch", "skills", "social"],
+  "button_mode": "each",
+  "buttons": [
+    { "label": "PAWANG.DEV", "url": "https://www.pawang.dev" },
+    { "label": "KONSULTASI GRATIS", "url": "https://www.pawang.dev/kontak-pawang" }
+  ],
+  "info": [
+    { "label": "Brand", "value": "Pawang.dev", "terminal": false },
+    { "label": "Tagline", "value": "Digitalmu liar? Serahkan ke Pawang.", "terminal": false },
+    { "label": "Layanan", "value": "Web · SEO · Sheet · Otomasi · Rawat" },
+    { "label": "Paket", "value": "Jinak → Piawai → Sakti" },
+    { "label": "Nilai", "value": "Tenang, Paham, Jinak" },
+    { "label": "Untuk", "value": "UMKM Indonesia" },
+    { "label": "Kontak", "value": "halo@pawang.dev" }
+  ],
+  "prompt": "pawang --jinakkan DEV (digital, efisien, valid)",
+  "hero": {
+    "line1": "Digitalmu liar?",
+    "line2": "Serahkan ke Pawang.",
+    "accent": "Pawang.",
+    "chips": ["Web", "SEO", "Sheet", "Otomasi", "Rawat"]
+  },
+  "services": [
+    { "icon": "web", "title": "Pawang Web", "promise": ["Website yang jinak: cepat,", "rapi, mudah diurus."], "detail": "Company profile & landing page" },
+    { "icon": "seo", "title": "Pawang SEO", "promise": ["Biar usahamu ditemukan,", "bukan sekadar tampil."], "detail": "Riset kata kunci & laporan bulanan" },
+    { "icon": "sheet", "title": "Pawang Sheet", "promise": ["Angka berantakan", "jadi jelas."], "detail": "Dashboard & laporan otomatis" },
+    { "icon": "otomasi", "title": "Pawang Otomasi", "promise": ["Kerja berulang", "dikerjakan sendiri."], "detail": "Notifikasi WhatsApp & sinkron data" },
+    { "icon": "rawat", "title": "Pawang Rawat", "promise": ["Setelah proyek selesai,", "tetap ada yang jaga."], "detail": "Perawatan & update bulanan" }
+  ],
+  "packages": [
+    { "name": "Jinak", "desc": "Dasar" },
+    { "name": "Piawai", "desc": "Menengah" },
+    { "name": "Sakti", "desc": "Premium" }
+  ],
+  "values": [
+    { "name": "Tenang", "desc": "tidak panik" },
+    { "name": "Paham", "desc": "mengerti dulu" },
+    { "name": "Jinak", "desc": "mudah dipakai" }
+  ],
+  "sheet": {
+    "labels": ["DATA LIAR", "JADI JINAK"],
+    "messy": ["#REF!", "???", "12/3", "Rp ?", "N/A", "0,0", "dup?", "KOSONG", "3x lipat", "revisi_final2", "xlsx (1)", "#N/A"],
+    "caption": "Data tercecer di lima tempat?",
+    "accent": "Kami kumpulkan jadi satu dashboard."
+  },
+  "typing": {
+    "command": "pawang --jinakkan DEV (digital, efisien, valid)",
+    "steps": [
+      "memahami dulu masalahnya",
+      "merapikan data yang tercecer",
+      "mengotomasi kerja berulang",
+      "menjinakkan digitalmu"
+    ],
+    "stats_command": "pawang stats"
+  }
+}
