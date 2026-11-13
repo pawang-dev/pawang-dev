@@ -438,6 +438,7 @@ text{font-family:'JetBrains Mono','SF Mono','Menlo','Consolas','DejaVu Sans Mono
 <rect class="cell" style="animation-delay:0.78s" x="862" y="498" width="13" height="13" rx="3" fill="#FF8A3D" fill-opacity="0.55"/>
 <rect class="cell" style="animation-delay:0.78s" x="862" y="514" width="13" height="13" rx="3" fill="#FF8A3D" fill-opacity="0.55"/>
 <rect class="cell" style="animation-delay:0.78s" x="862" y="530" width="13" height="13" rx="3" fill="#FF8A3D" fill-opacity="1"/>
+<rect class="cell" style="animation-delay:0.78s" x="862" y="546" width="13" height="13" rx="3" fill="#22345C"/>
 <text x="30" y="600" class="s">github.com/pawang-dev</text>
 <text x="742" y="600" class="s">Sedikit</text>
 <rect x="798" y="590" width="13" height="13" rx="3" fill="#22345C"/>
