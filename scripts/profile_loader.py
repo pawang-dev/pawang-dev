@@ -8,13 +8,27 @@ from i18n import LANGUAGES, strings
 
 PROFILE_FILE = DATA / "profile.json"
 CARD_SECTIONS = ("hero", "neofetch", "terminal", "brand", "sheet", "typing")
-SECTIONS = CARD_SECTIONS + ("skills", "social")
+SECTIONS = CARD_SECTIONS + ("skills", "connect", "featured", "portfolio", "articles", "activity")
 ICONS = ("web", "seo", "sheet", "otomasi", "rawat", "code", "design", "chart", "chat", "mail", "star")
 BUTTON_MODES = ("each", "last", "none")
 USERNAME_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")
-KNOWN = {"$schema", "language", "username", "name", "suffix", "domain", "website", "email", "tagline",
+KNOWN = {"$schema", "language", "username", "name", "suffix", "domain", "email", "tagline",
          "tagline_accent", "description", "audience", "mode", "badge", "mascot", "sections", "buttons",
-         "button_mode", "info", "prompt", "hero", "services", "packages", "values", "sheet", "typing"}
+         "button_mode", "info", "prompt", "hero", "services", "packages", "values", "sheet", "typing",
+         "connect", "skills", "featured", "portfolio", "articles", "activity"}
+CONNECT_STYLES = ("auto", "text", "icon")
+SKILL_STYLES = ("original", "plain", "line")
+SKILL_LAYOUTS = ("card", "row")
+FEATURED_SOURCES = ("pinned", "popular", "manual")
+THUMBS = ("web", "chart", "chat")
+BLOCK_KEYS = {
+    "connect": {"title", "subtitle", "style", "links"},
+    "skills": {"title", "subtitle", "style", "layout", "skills", "groups"},
+    "featured": {"title", "subtitle", "source", "limit", "repos"},
+    "portfolio": {"title", "subtitle", "items"},
+    "articles": {"title", "subtitle", "feeds", "limit"},
+    "activity": {"title", "subtitle", "limit"},
+}
 
 
 class _V:
@@ -104,7 +118,6 @@ def load_profile():
         v.err("name", "wajib diisi (nama brand atau nama kamu)")
     p["suffix"] = v.text(raw.get("suffix"), "suffix", 10)
     p["domain"] = v.text(raw.get("domain"), "domain", 40)
-    p["website"] = v.url(raw.get("website"), "website")
     email = v.text(raw.get("email"), "email", 50)
     if email and not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email):
         v.err("email", f"'{email}' bukan alamat email yang valid")
@@ -128,7 +141,9 @@ def load_profile():
     secs = v.lst(raw.get("sections"), "sections") or ["neofetch"]
     p["sections"] = []
     for i, s in enumerate(secs):
-        if s not in SECTIONS:
+        if s == "social":
+            v.err(f"sections[{i}]", "'social' sudah diganti 'connect'. Ganti nama bagian ini, dan pindahkan isi social.json ke blok 'connect.links' di profile.json")
+        elif s not in SECTIONS:
             v.err(f"sections[{i}]", f"'{s}' tidak dikenal (pilihan: {', '.join(SECTIONS)})")
         elif s in p["sections"]:
             v.warn(f"sections[{i}]", f"'{s}' muncul dua kali, yang kedua diabaikan")
@@ -232,12 +247,87 @@ def load_profile():
                    "steps": [x for x in steps if x],
                    "stats_command": v.text(ty.get("stats_command"), "typing.stats_command", 30, "stats")}
 
+
+    # ---- blok opsional: connect, skills, featured, portfolio, articles, activity
+    def block(name):
+        b = v.obj(raw.get(name), name)
+        for k in b:
+            if k not in BLOCK_KEYS[name] and not k.startswith("_"):
+                v.warn(f"{name}.{k}", "kunci tidak dikenal, diabaikan")
+        return b
+
+    def enum(b, key, path, allowed, default):
+        val = v.text(b.get(key), path, default=default).lower()
+        if val not in allowed:
+            v.err(path, f"'{val}' tidak dikenal (pilihan: {', '.join(allowed)})")
+            return default
+        return val
+
+    def limit(b, path, default, hi):
+        n = b.get("limit", default)
+        if isinstance(n, bool) or not isinstance(n, int) or not 1 <= n <= hi:
+            v.err(path, f"harus bilangan bulat 1 sampai {hi}")
+            return default
+        return n
+
+    c = block("connect")
+    links = v.obj(c.get("links"), "connect.links")
+    p["connect"] = {"title": v.text(c.get("title"), "connect.title", 40), "subtitle": v.text(c.get("subtitle"), "connect.subtitle", 60),
+                    "style": enum(c, "style", "connect.style", CONNECT_STYLES, "auto"), "links": links}
+    k = block("skills")
+    p["skills"] = {"title": v.text(k.get("title"), "skills.title", 40), "subtitle": v.text(k.get("subtitle"), "skills.subtitle", 60),
+                   "style": enum(k, "style", "skills.style", SKILL_STYLES, "original"),
+                   "layout": enum(k, "layout", "skills.layout", SKILL_LAYOUTS, "card"),
+                   "skills": v.lst(k.get("skills"), "skills.skills"), "groups": v.obj(k.get("groups"), "skills.groups")}
+    for gname, items in p["skills"]["groups"].items():
+        if not isinstance(items, list):
+            v.err(f"skills.groups.{gname}", "harus berupa daftar [ ... ]")
+    f = block("featured")
+    p["featured"] = {"title": v.text(f.get("title"), "featured.title", 40), "subtitle": v.text(f.get("subtitle"), "featured.subtitle", 60),
+                     "source": enum(f, "source", "featured.source", FEATURED_SOURCES, "pinned"), "limit": limit(f, "featured.limit", 4, 6),
+                     "repos": v.cap(v.lst(f.get("repos"), "featured.repos"), "featured.repos", 6)}
+    items = []
+    po = block("portfolio")
+    for i, it in enumerate(v.cap(v.lst(po.get("items"), "portfolio.items"), "portfolio.items", 6)):
+        it = v.obj(it, f"portfolio.items[{i}]")
+        title = v.text(it.get("title"), f"portfolio.items[{i}].title", 24)
+        if not title:
+            v.err(f"portfolio.items[{i}].title", "wajib diisi")
+            continue
+        image = v.text(it.get("image"), f"portfolio.items[{i}].image", 80)
+        if image and ("/" in image or "\\" in image or image.startswith(".")):
+            v.err(f"portfolio.items[{i}].image", "tulis nama file saja (file ada di assets/images/portfolio/)")
+            image = ""
+        thumb = v.text(it.get("thumb"), f"portfolio.items[{i}].thumb", default="").lower()
+        if thumb and thumb not in THUMBS:
+            v.err(f"portfolio.items[{i}].thumb", f"'{thumb}' tidak dikenal (pilihan: {', '.join(THUMBS)})")
+            thumb = ""
+        items.append({"title": title, "tag": v.text(it.get("tag"), f"portfolio.items[{i}].tag", 14),
+                      "description": v.text(it.get("description"), f"portfolio.items[{i}].description", 40),
+                      "result": v.text(it.get("result"), f"portfolio.items[{i}].result", 36),
+                      "url": v.url(it.get("url"), f"portfolio.items[{i}].url"), "image": image, "thumb": thumb})
+    p["portfolio"] = {"title": v.text(po.get("title"), "portfolio.title", 40), "subtitle": v.text(po.get("subtitle"), "portfolio.subtitle", 60), "items": items}
+    a = block("articles")
+    feeds = [v.url(x, f"articles.feeds[{i}]") for i, x in enumerate(v.cap(v.lst(a.get("feeds"), "articles.feeds"), "articles.feeds", 3))]
+    p["articles"] = {"title": v.text(a.get("title"), "articles.title", 40), "subtitle": v.text(a.get("subtitle"), "articles.subtitle", 60),
+                     "feeds": [x for x in feeds if x], "limit": limit(a, "articles.limit", 3, 6)}
+    ac = block("activity")
+    p["activity"] = {"title": v.text(ac.get("title"), "activity.title", 40), "subtitle": v.text(ac.get("subtitle"), "activity.subtitle", 60),
+                     "limit": limit(ac, "activity.limit", 5, 8)}
+    for legacy, target in (("social.json", "connect.links"), ("skills.json", "skills")):
+        if (DATA / legacy).exists():
+            v.warn(f"assets/data/{legacy}", f"tidak dipakai lagi. Pindahkan isinya ke blok '{target}' di profile.json, lalu hapus file ini")
+
     # syarat tiap bagian
     for s in p["sections"]:
         if s == "brand" and not p["services"]:
             v.err("sections", "'brand' dipilih tetapi 'services' kosong. Isi services atau hapus 'brand' dari sections")
         if s == "hero" and not (p["hero"]["line1"] or p["tagline"]):
             v.err("sections", "'hero' dipilih tetapi 'tagline' dan 'hero.line1' kosong")
+        if s == "featured" and p["featured"]["source"] == "manual" and not p["featured"]["repos"]:
+            v.err("sections", "'featured' dengan source 'manual' butuh daftar 'featured.repos'")
+        if s == "articles" and not p["articles"]["feeds"]:
+            v.err("sections", "'articles' dipilih tetapi 'articles.feeds' kosong. Isi alamat RSS atau Atom, atau hapus 'articles' dari sections")
         if s == "typing" and not p["typing"]["steps"]:
             v.warn("sections", "'typing' dipilih tetapi 'typing.steps' kosong, hanya perintah dan statistik yang tampil")
     if p["button_mode"] != "none" and not p["buttons"] and any(s in CARD_SECTIONS for s in p["sections"]):

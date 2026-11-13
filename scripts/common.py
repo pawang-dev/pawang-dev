@@ -28,6 +28,10 @@ THEMES = {
 }
 CARD_R = 14
 
+# Tautan bawaan kartu identitas (hero, neofetch, terminal, brand, sheet, typing). Sengaja di skrip, bukan di JSON.
+DEFAULT_LINK = "https://www.pawang.dev"
+IN_ACTIONS = os.environ.get("GITHUB_ACTIONS") == "true"
+
 
 class BuildError(Exception):
     """Kesalahan fatal yang sudah dijelaskan ke pengguna."""
@@ -101,6 +105,8 @@ def cleanup(dirs):
             for f in d.glob("*.svg"):
                 if f.resolve() not in EMITTED:
                     f.unlink()
+            if not any(d.iterdir()):
+                d.rmdir()
 
 
 def card_path(w, h, r=CARD_R, attached=True):
@@ -136,3 +142,25 @@ def split_accent(text, accent):
 def safe_stem(s, fallback="mascot"):
     s = re.sub(r"[^a-z0-9_-]", "", str(s).lower())
     return s or fallback
+
+
+def wrap_text(text, width, max_lines):
+    """Bungkus teks per kata, maksimal max_lines baris; sisanya dipotong dengan elipsis."""
+    import textwrap
+    lines = textwrap.wrap(str(text), width=width, break_long_words=True, break_on_hyphens=False) or [""]
+    if len(lines) > max_lines:
+        lines = lines[:max_lines]
+        lines[-1] = trunc(lines[-1] + "…", width) if len(lines[-1]) < width else lines[-1][: width - 1] + "…"
+    return lines
+
+
+def short_date(day, month, S, lang):
+    mon = S["months"][month - 1]
+    return f"{day} {mon}" if lang == "id" else f"{mon} {day}"
+
+
+def http_url(v):
+    """True kalau v adalah URL http(s) dengan host."""
+    from urllib.parse import urlparse
+    u = urlparse(str(v))
+    return u.scheme in ("http", "https") and bool(u.netloc)

@@ -1,9 +1,0 @@
-{
-  "$schema": "./schema/skills.schema.json",
-  "style": "original",
-  "layout": "card",
-  "title": "Skill Set",
-  "subtitle": "dipilih untuk digital yang jinak",
-  "skills": [],
-  "groups": {}
-}

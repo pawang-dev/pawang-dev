@@ -17,6 +17,21 @@ Gambar milikmu. Semua opsional: jika tidak ada, build memakai cadangan otomatis.
 - Kartu terminal hijau membuat potret pixel dari `mascot.png`. Potret dibuat ulang otomatis saat maskot berubah (butuh Pillow). Maskot `.svg` tidak bisa dijadikan potret pixel, kartu memakai inisial.
 - Tanpa `logo`: monogram inisial `name`. Tanpa `mascot`: foto profil GitHub, atau monogram jika tidak tersedia.
 
+## portfolio/
+
+Gambar thumbnail untuk `portfolio.items[].image`. Opsional: tanpa gambar dipakai sketsa.
+
+| Aturan | Nilai |
+| --- | --- |
+| Rasio | 8:3 (lebar : tinggi) |
+| Ukuran | 960 × 360 px |
+| Format | PNG, JPG, WebP |
+| Ukuran file | di bawah 300 KB |
+| Tampil sebagai | strip setinggi 120 px, lebar 320 / 480 / 960 px sesuai jumlah karya |
+
+- Gambar diisi penuh dan dipotong dari tengah (tidak ada ruang kosong). Taruh bagian penting di tengah.
+- Nama file ditulis di `profile.json`, contoh `"image": "klien-a.png"`.
+
 ## skills/
 
 Ikon kustom untuk `skills.json`. Bawaan: `googlesheets`, `whatsapp`, `gmail`, `excel`, `telegram`.

@@ -10,4 +10,6 @@ class Ctx:
     logo: str               # data URI logo
     mascot: str             # data URI maskot
     portrait: dict = None   # potret pixel (kartu terminal hijau)
+    sample: bool = False    # True = tanpa jaringan (--sample dan --check)
+    dry: bool = False       # True = tidak menulis berkas apa pun (--check)
     extra: dict = field(default_factory=dict)

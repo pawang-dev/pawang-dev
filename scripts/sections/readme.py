@@ -1,5 +1,5 @@
 """Merakit README.md dari daftar "sections" di profile.json."""
-from common import README, esc
+from common import DEFAULT_LINK, README, esc
 
 BASE = "assets/svg"
 
@@ -18,7 +18,7 @@ def card_block(card, p, buttons=None):
                f'  <img alt="{alt}" src="{BASE}/cards/{card.NAME}_dark.svg" width="100%" align="top">\n</picture>')
     else:
         img = f'<img alt="{alt}" src="{BASE}/cards/{card.FILE}" width="100%" align="top">'
-    html = f'<a href="{esc(p["website"])}">\n{img}\n</a>' if p["website"] else img
+    html = f'<a href="{esc(DEFAULT_LINK)}">\n{img}\n</a>'
     if buttons:
         html += "<br>\n" + "".join(
             f'<a href="{esc(url)}"><img alt="{esc(label)}" src="{BASE}/buttons/{fname}" width="{pct}%" align="top"></a>'

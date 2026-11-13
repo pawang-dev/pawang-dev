@@ -23,9 +23,10 @@ from github_data import get_data  # noqa: E402
 from i18n import strings  # noqa: E402
 from images import logo_uri, mascot_uri  # noqa: E402
 from profile_loader import CARD_SECTIONS, load_profile  # noqa: E402
-from sections import readme, skills, social  # noqa: E402
+from sections import activity, articles, connect, featured, portfolio, readme, skills  # noqa: E402
 
-NEEDS_DATA = ("neofetch", "terminal", "sheet", "typing")
+NEEDS_DATA = ("neofetch", "terminal", "sheet", "typing", "featured", "activity")
+SVG_DIRS = ("cards", "buttons", "skills", "connect", "featured", "portfolio", "articles", "activity", "social")
 
 
 def main(argv=None):
@@ -47,14 +48,21 @@ def main(argv=None):
 
     sections = p["sections"]
     wanted_cards = [s for s in sections if s in CARD_SECTIONS]
-    data = get_data(p["username"], force_sample=sample) if any(s in NEEDS_DATA for s in sections) else None
+    data = None
+    if any(s in NEEDS_DATA for s in sections):
+        manual = featured.manual_names(p["featured"]["repos"], p["username"]) if "featured" in sections and p["featured"]["source"] == "manual" else ()
+        data = get_data(p["username"], manual, S, force_sample=sample, dry=common.DRY)
+        if data is None:
+            REPORT.show()
+            print("\nBuild dihentikan. README dan SVG tidak diubah.", file=sys.stderr)
+            return 1
     logo = logo_uri(p["name"])
     mascot, mascot_file = mascot_uri(p["name"], p["username"], allow_network=not sample)
     portrait = None
     if "terminal" in sections:
         from make_portrait import ensure_portrait  # noqa: PLC0415
         portrait = ensure_portrait(mascot_file)
-    ctx = Ctx(p=p, data=data, S=S, logo=logo, mascot=mascot, portrait=portrait)
+    ctx = Ctx(p=p, data=data, S=S, logo=logo, mascot=mascot, portrait=portrait, sample=sample, dry=common.DRY)
 
     # tombol: tiap kartu / hanya kartu terakhir / tidak ada
     mode = p["button_mode"] if p["buttons"] else "none"
@@ -79,10 +87,9 @@ def main(argv=None):
                         emit(SVG / "buttons" / fname, svg)
                 bars = bar_cache[variant]
             blocks.append(readme.card_block(card, p, bars))
-        elif s == "skills":
-            blocks.append(skills.build(S))
-        elif s == "social":
-            blocks.append(social.build(S))
+        else:
+            blocks.append({"skills": skills, "connect": connect, "featured": featured, "portfolio": portfolio,
+                           "articles": articles, "activity": activity}[s].build(ctx))
 
     REPORT.show()
     if REPORT.errors:
@@ -91,7 +98,7 @@ def main(argv=None):
     if check_only:
         print("OK:", ", ".join(sections), f"({len(REPORT.warnings)} peringatan)")
         return 0
-    common.cleanup([SVG / "cards", SVG / "buttons", SVG / "skills", SVG / "social"])
+    common.cleanup([SVG / d for d in SVG_DIRS])
     readme.write(readme.assemble(blocks, S))
     shown = [s for s, b in zip(sections, blocks) if b]
     skipped = [s for s, b in zip(sections, blocks) if not b]

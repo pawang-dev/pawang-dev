@@ -1,4 +1,4 @@
-"""Skill Set / teknologi (opsional), dibaca dari assets/data/skills.json.
+"""Skill Set / teknologi (opsional), dibaca dari blok "skills" di assets/data/profile.json.
 
 Ikon: paket devicon (assets/vendor/devicon) atau ikon kustom (assets/images/skills/), ditanam ke SVG
 sebagai data URI sehingga tidak ada permintaan jaringan saat profil dilihat.
@@ -10,13 +10,12 @@ import math
 import re
 import zipfile
 
-from common import DATA, NAVY, ORANGE, CREAM, REPORT, SANS, SKILL_ICONS as CUSTOM, SVG, VENDOR, emit, esc, read_json, rel
+from common import NAVY, ORANGE, CREAM, REPORT, SANS, SKILL_ICONS as CUSTOM, SVG, VENDOR, emit, esc
 
 PACK = VENDOR / "devicon"
-CONFIG = DATA / "skills.json"
+WHERE = "assets/data/profile.json"
 OUT = SVG / "skills"
 SVG_DIR_REL = "assets/svg/skills"
-KNOWN_KEYS = {"$schema", "style", "layout", "title", "subtitle", "skills", "groups"}
 
 MAX_SKILLS = 60
 CUSTOM_EXT = {".svg": "image/svg+xml", ".png": "image/png", ".webp": "image/webp",
@@ -46,7 +45,7 @@ LABELS = {
 
 
 def warn(msg):
-    REPORT.warn(rel(CONFIG), msg)
+    REPORT.warn(WHERE, f"skills: {msg}")
 
 
 def norm(s):
@@ -130,42 +129,16 @@ class Icons:
 
 
 # ------------------------------------------------------------------- konfigurasi
-def load_config(icons, S):
-    cfg = read_json(CONFIG)
-    if cfg is None:
-        return None
-    where = rel(CONFIG)
-    for k in cfg:
-        if k not in KNOWN_KEYS and not k.startswith("_"):
-            REPORT.warn(where, f"{k}: kunci tidak dikenal, diabaikan")
-
-    def pick(key, allowed, default):
-        v = str(cfg.get(key, default)).strip().lower()
-        if v not in allowed:
-            REPORT.error(where, f"{key}: '{v}' tidak dikenal (pilihan: {', '.join(allowed)})")
-            return default
-        return v
-
-    style = pick("style", tuple(STYLES), "original")
-    layout = pick("layout", ("card", "row"), "card")
-    title = str(cfg.get("title") or S["skills_title"]).strip()[:40]
-    subtitle = str(cfg.get("subtitle") or "").strip()[:60]
-    flat, groups_cfg = cfg.get("skills") or [], cfg.get("groups") or {}
-    if not isinstance(flat, list):
-        REPORT.error(where, "skills: harus berupa daftar [ ... ]")
-        flat = []
-    if not isinstance(groups_cfg, dict):
-        REPORT.error(where, "groups: harus berupa objek { \"Nama Grup\": [ ... ] }")
-        groups_cfg = {}
+def load_config(icons, S, cfg):
+    """cfg = p["skills"] (struktur sudah divalidasi di profile_loader)."""
+    title = cfg["title"] or S["skills_title"]
+    flat, groups_cfg = cfg["skills"], cfg["groups"]
     raw_groups = []
     if flat:
         raw_groups.append((S["skills_other"] if groups_cfg else "", flat))
     for gname, items in groups_cfg.items():
-        if not isinstance(items, list):
-            REPORT.error(where, f"groups.{gname}: harus berupa daftar [ ... ]")
-            continue
-        raw_groups.append((str(gname).strip()[:28], items))
-
+        if isinstance(items, list):
+            raw_groups.append((str(gname).strip()[:28], items))
     groups, total, seen = [], 0, set()
     for gname, items in raw_groups:
         resolved = []
@@ -181,7 +154,7 @@ def load_config(icons, S):
             total += 1
         if resolved:
             groups.append((gname, resolved))
-    return dict(style=style, layout=layout, title=title, subtitle=subtitle, groups=groups)
+    return dict(style=cfg["style"], layout=cfg["layout"], title=title, subtitle=cfg["subtitle"], groups=groups)
 
 
 # ------------------------------------------------------------------------ gambar
@@ -251,10 +224,11 @@ def row_svg(icons, cfg):
 
 
 # -------------------------------------------------------------------- blok README
-def build(S):
+def build(ctx):
     """Tulis SVG dan kembalikan blok HTML untuk README ('' kalau tidak ada skill)."""
+    S = ctx.S
     icons = Icons()
-    cfg = load_config(icons, S)
+    cfg = load_config(icons, S, ctx.p["skills"])
     if not cfg or not cfg["groups"]:
         return ""
     names = ", ".join(i["label"] for _, g in cfg["groups"] for i in g)

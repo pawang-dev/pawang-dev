@@ -1,388 +1,1675 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "profile.json",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "name"
-  ],
-  "properties": {
-    "$schema": {
-      "type": "string"
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "title": "profile.json",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "name"
+ ],
+ "definitions": {
+  "skillName": {
+   "type": "string",
+   "description": "Nama teknologi (devicon) atau nama ikon kustom",
+   "examples": [
+    "aarch64",
+    "adonisjs",
+    "aerospike",
+    "aframe",
+    "aftereffects",
+    "aiassistant",
+    "akka",
+    "algolia",
+    "almalinux",
+    "alpinejs",
+    "amazonwebservices",
+    "anaconda",
+    "android",
+    "androidstudio",
+    "angular",
+    "angularjs",
+    "angularmaterial",
+    "ansible",
+    "ansys",
+    "antdesign",
+    "antigravity",
+    "apache",
+    "apacheairflow",
+    "apacheignite",
+    "apachekafka",
+    "apachespark",
+    "apex",
+    "apify",
+    "apl",
+    "apollographql",
+    "appcelerator",
+    "apple",
+    "appwrite",
+    "archlinux",
+    "arduino",
+    "argocd",
+    "artixlinux",
+    "aspire",
+    "astro",
+    "atom",
+    "awk",
+    "axios",
+    "azure",
+    "azuredatafactory",
+    "azuredevops",
+    "azuresqldatabase",
+    "babel",
+    "babylonjs",
+    "backbonejs",
+    "ballerina",
+    "bamboo",
+    "bash",
+    "bazel",
+    "beats",
+    "behance",
+    "bevyengine",
+    "biome",
+    "bitbucket",
+    "blazor",
+    "blender",
+    "bootstrap",
+    "bower",
+    "browserstack",
+    "bruno",
+    "bulma",
+    "bun",
+    "burpsuite",
+    "c",
+    "cachyos",
+    "cairo",
+    "cake",
+    "cakephp",
+    "canva",
+    "capacitor",
+    "carbon",
+    "cassandra",
+    "centos",
+    "ceph",
+    "ceylon",
+    "chakraui",
+    "chartjs",
+    "chrome",
+    "circleci",
+    "clarity",
+    "claude",
+    "claudecode",
+    "clickhouse",
+    "clion",
+    "clojure",
+    "clojurescript",
+    "cloudflare",
+    "cloudflareworkers",
+    "cloudrun",
+    "cmake",
+    "cobol",
+    "codeac",
+    "codeberg",
+    "codecov",
+    "codeigniter",
+    "codepen",
+    "codex",
+    "coffeescript",
+    "composer",
+    "confluence",
+    "consul",
+    "contao",
+    "cordova",
+    "corejs",
+    "cosmosdb",
+    "couchbase",
+    "couchdb",
+    "cpanel",
+    "cplusplus",
+    "crystal",
+    "csharp",
+    "css",
+    "css3",
+    "cucumber",
+    "cursor",
+    "cypressio",
+    "d3js",
+    "dart",
+    "datadog",
+    "datagrip",
+    "dataspell",
+    "datatables",
+    "dbeaver",
+    "debian",
+    "delphi",
+    "denojs",
+    "detaspace",
+    "devicon",
+    "digitalocean",
+    "discloud",
+    "discordjs",
+    "django",
+    "djangorest",
+    "docker",
+    "doctrine",
+    "dot-net",
+    "dotnetcore",
+    "dovecot",
+    "dreamweaver",
+    "dropwizard",
+    "drupal",
+    "duckdb",
+    "dyalog",
+    "dynamodb",
+    "dynatrace",
+    "eclipse",
+    "ecto",
+    "elasticsearch",
+    "electron",
+    "eleventy",
+    "elixir",
+    "elm",
+    "emacs",
+    "emailjs",
+    "embeddedc",
+    "ember",
+    "entityframeworkcore",
+    "envoy",
+    "erlang",
+    "eslint",
+    "excel",
+    "expo",
+    "express",
+    "facebook",
+    "fastapi",
+    "fastify",
+    "faunadb",
+    "feathersjs",
+    "fedora",
+    "fiber",
+    "figma",
+    "filamentphp",
+    "filezilla",
+    "firebase",
+    "firebird",
+    "firefox",
+    "fish",
+    "flask",
+    "flutter",
+    "flyway",
+    "forgejo",
+    "fortran",
+    "foundation",
+    "framework7",
+    "frankenphp",
+    "fsharp",
+    "fusion",
+    "gardener",
+    "gatling",
+    "gatsby",
+    "gazebo",
+    "gcc",
+    "gentoo",
+    "ghidra",
+    "ghost",
+    "gimp",
+    "git",
+    "gitbook",
+    "gitea",
+    "github",
+    "githubactions",
+    "githubcodespaces",
+    "githubcopilot",
+    "gitkraken",
+    "gitlab",
+    "gitpod",
+    "gitter",
+    "gleam",
+    "glitch",
+    "gmail",
+    "gnuradio",
+    "go",
+    "godot",
+    "goland",
+    "google",
+    "googleappscript",
+    "googlecloud",
+    "googlecolab",
+    "googlesheets",
+    "gradle",
+    "grafana",
+    "grafanaloki",
+    "grails",
+    "graphql",
+    "groovy",
+    "grpc",
+    "grunt",
+    "gulp",
+    "hadoop",
+    "handlebars",
+    "haproxy",
+    "harbor",
+    "hardhat",
+    "harvester",
+    "haskell",
+    "haxe",
+    "helix",
+    "helm",
+    "heroku",
+    "hibernate",
+    "homebrew",
+    "hoppscotch",
+    "html5",
+    "htmx",
+    "huggingface",
+    "hugo",
+    "hyperv",
+    "hyprland",
+    "icinga",
+    "idris",
+    "ie10",
+    "ifttt",
+    "illustrator",
+    "inertiajs",
+    "influxdb",
+    "inkscape",
+    "insomnia",
+    "intellij",
+    "ionic",
+    "istio",
+    "jaegertracing",
+    "jamstack",
+    "jasmine",
+    "java",
+    "javascript",
+    "jeet",
+    "jekyll",
+    "jenkins",
+    "jest",
+    "jetbrains",
+    "jetpackcompose",
+    "jhipster",
+    "jira",
+    "jiraalign",
+    "jquery",
+    "json",
+    "jule",
+    "julia",
+    "junie",
+    "junit",
+    "jupyter",
+    "jwt",
+    "k3os",
+    "k3s",
+    "k6",
+    "kaggle",
+    "kaldi",
+    "kalilinux",
+    "karatelabs",
+    "karma",
+    "kdeneon",
+    "keras",
+    "kibana",
+    "knexjs",
+    "kotlin",
+    "krakenjs",
+    "ktor",
+    "kubeflow",
+    "kubernetes",
+    "labview",
+    "laminas",
+    "laravel",
+    "laraveljetstream",
+    "latex",
+    "leetcode",
+    "libgdx",
+    "linear",
+    "linkedin",
+    "linux",
+    "linuxmint",
+    "liquibase",
+    "livewire",
+    "llvm",
+    "lodash",
+    "logstash",
+    "lovable",
+    "love2d",
+    "lua",
+    "luau",
+    "lumen",
+    "magento",
+    "mapbox",
+    "mariadb",
+    "markdown",
+    "materializecss",
+    "materialui",
+    "matlab",
+    "matplotlib",
+    "mattermost",
+    "maven",
+    "maya",
+    "memcached",
+    "mercurial",
+    "metabase",
+    "meteor",
+    "microsoftsqlserver",
+    "minitab",
+    "mithril",
+    "mobx",
+    "mocha",
+    "modx",
+    "moleculer",
+    "mongock",
+    "mongodb",
+    "mongoose",
+    "monogame",
+    "moodle",
+    "motion",
+    "msbuild",
+    "msdos",
+    "mysql",
+    "n8n",
+    "nano",
+    "nasm",
+    "nats",
+    "neo4j",
+    "neovim",
+    "nestjs",
+    "netbeans",
+    "netbox",
+    "netlify",
+    "networkx",
+    "newrelic",
+    "nextjs",
+    "nginx",
+    "ngrok",
+    "ngrx",
+    "nhibernate",
+    "nim",
+    "nimble",
+    "nixos",
+    "nodejs",
+    "nodemon",
+    "nodered",
+    "nodewebkit",
+    "nomad",
+    "norg",
+    "notion",
+    "novelwriter",
+    "npm",
+    "npss",
+    "nuget",
+    "numpy",
+    "nuxt",
+    "nuxtjs",
+    "oauth",
+    "objectivec",
+    "ocaml",
+    "odin",
+    "ohmyzsh",
+    "okta",
+    "ollama",
+    "openal",
+    "openapi",
+    "opencl",
+    "opencv",
+    "opengl",
+    "openstack",
+    "opensuse",
+    "opentelemetry",
+    "opera",
+    "opnsense",
+    "oracle",
+    "ory",
+    "p5js",
+    "packer",
+    "pandas",
+    "passport",
+    "payloadcms",
+    "perl",
+    "pfsense",
+    "phalcon",
+    "phoenix",
+    "photonengine",
+    "photoshop",
+    "php",
+    "phpstorm",
+    "pixijs",
+    "playwright",
+    "plotly",
+    "pm2",
+    "pnpm",
+    "podman",
+    "poetry",
+    "polygon",
+    "portainer",
+    "positron",
+    "postcss",
+    "postgresql",
+    "postman",
+    "powershell",
+    "premierepro",
+    "prestashop",
+    "primeng",
+    "prisma",
+    "processing",
+    "processwire",
+    "prolog",
+    "prometheus",
+    "protractor",
+    "proxmox",
+    "pug",
+    "pulsar",
+    "pulumi",
+    "puppeteer",
+    "purescript",
+    "putty",
+    "pycharm",
+    "pypi",
+    "pytest",
+    "python",
+    "pytorch",
+    "qiskit",
+    "qodana",
+    "qt",
+    "qtest",
+    "quarkus",
+    "quasar",
+    "qwik",
+    "r",
+    "rabbitmq",
+    "racket",
+    "radstudio",
+    "rails",
+    "railway",
+    "rancher",
+    "raspberrypi",
+    "ravendb",
+    "reach",
+    "react",
+    "reactbootstrap",
+    "reactnative",
+    "reactnavigation",
+    "reactrouter",
+    "readthedocs",
+    "realm",
+    "rect",
+    "redhat",
+    "redis",
+    "redux",
+    "reflex",
+    "remix",
+    "renpy",
+    "replit",
+    "rexx",
+    "rider",
+    "rocksdb",
+    "rockylinux",
+    "rollup",
+    "ros",
+    "rspec",
+    "rstudio",
+    "ruby",
+    "rubymine",
+    "rust",
+    "rxjs",
+    "safari",
+    "salesforce",
+    "sanity",
+    "sass",
+    "scala",
+    "scaleway",
+    "scalingo",
+    "scikitlearn",
+    "sdl",
+    "seaborn",
+    "selenium",
+    "sema",
+    "sentry",
+    "sequelize",
+    "sfml",
+    "shadcn",
+    "shopware",
+    "shotgrid",
+    "sketch",
+    "slack",
+    "socketio",
+    "solidity",
+    "solidjs",
+    "sonarqube",
+    "sourceengine",
+    "sourcetree",
+    "spack",
+    "spicedb",
+    "spring",
+    "spss",
+    "spyder",
+    "sqlalchemy",
+    "sqldeveloper",
+    "sqlite",
+    "ssh",
+    "stackblitz",
+    "stackoverflow",
+    "starship",
+    "stenciljs",
+    "stimulus",
+    "storybook",
+    "streamlit",
+    "styledcomponents",
+    "stylus",
+    "subversion",
+    "sulu",
+    "supabase",
+    "surrealdb",
+    "svelte",
+    "svgo",
+    "swagger",
+    "swift",
+    "swiper",
+    "symfony",
+    "systemverilog",
+    "tailwindcss",
+    "talos",
+    "tauri",
+    "teamcity",
+    "telegram",
+    "teleport",
+    "tensorflow",
+    "tenzir",
+    "terraform",
+    "terramate",
+    "testrail",
+    "tex",
+    "thealgorithms",
+    "threedsmax",
+    "threejs",
+    "thymeleaf",
+    "tigerbeetle",
+    "tinygo",
+    "titaniumsdk",
+    "tmux",
+    "tomcat",
+    "toml",
+    "tortoisegit",
+    "towergit",
+    "traefikmesh",
+    "traefikproxy",
+    "travis",
+    "trello",
+    "trpc",
+    "turbo",
+    "twilio",
+    "twitter",
+    "typeorm",
+    "typer",
+    "typescript",
+    "typo3",
+    "ubuntu",
+    "unifiedmodelinglanguage",
+    "unity",
+    "unix",
+    "unrealengine",
+    "uv",
+    "uwsgi",
+    "v8",
+    "vaadin",
+    "vagrant",
+    "vala",
+    "vapor",
+    "vault",
+    "veevalidate",
+    "vercel",
+    "verilog",
+    "vertx",
+    "vim",
+    "visualbasic",
+    "visualstudio",
+    "vite",
+    "vitejs",
+    "vitess",
+    "vitest",
+    "vlang",
+    "vscode",
+    "vscodium",
+    "vsphere",
+    "vuejs",
+    "vuestorefront",
+    "vuetify",
+    "vulkan",
+    "vyper",
+    "waku",
+    "wasm",
+    "wasp",
+    "web2py",
+    "web3js",
+    "webflow",
+    "webgl",
+    "webgpu",
+    "weblate",
+    "webpack",
+    "webstorm",
+    "whatsapp",
+    "windows11",
+    "windows8",
+    "wireguard",
+    "wolfram",
+    "woocommerce",
+    "wordpress",
+    "xamarin",
+    "xcode",
+    "xd",
+    "xml",
+    "yaml",
+    "yarn",
+    "yii",
+    "youtrack",
+    "yugabytedb",
+    "yunohost",
+    "zed",
+    "zend",
+    "zig",
+    "zsh",
+    "zustand"
+   ]
+  }
+ },
+ "properties": {
+  "$schema": {
+   "type": "string"
+  },
+  "language": {
+   "enum": [
+    "id",
+    "en"
+   ],
+   "description": "Bahasa teks bawaan kartu (id atau en)"
+  },
+  "username": {
+   "type": "string",
+   "description": "Username GitHub. Kosong = pemilik repo (otomatis di GitHub Actions)",
+   "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"
+  },
+  "name": {
+   "type": "string",
+   "description": "Nama brand atau nama kamu",
+   "minLength": 1,
+   "maxLength": 24
+  },
+  "suffix": {
+   "type": "string",
+   "description": "Akhiran nama yang diberi warna aksen, contoh: .dev",
+   "maxLength": 10
+  },
+  "domain": {
+   "type": "string",
+   "description": "Domain tanpa https://, contoh: pawang.dev",
+   "maxLength": 40
+  },
+  "email": {
+   "type": "string",
+   "description": "Alamat email kontak",
+   "maxLength": 50
+  },
+  "tagline": {
+   "type": "string",
+   "description": "Kalimat utama",
+   "maxLength": 60
+  },
+  "tagline_accent": {
+   "type": "string",
+   "description": "Bagian tagline yang diberi warna aksen (harus ada di dalam tagline)",
+   "maxLength": 60
+  },
+  "description": {
+   "description": "Deskripsi singkat, maksimal 2 baris",
+   "oneOf": [
+    {
+     "type": "string",
+     "description": "Satu baris",
+     "maxLength": 56
     },
-    "language": {
-      "enum": [
-        "id",
-        "en"
-      ],
-      "description": "Bahasa teks bawaan kartu (id atau en)"
-    },
-    "username": {
+    {
+     "type": "array",
+     "description": "Maksimal 2 baris",
+     "items": {
       "type": "string",
-      "description": "Username GitHub. Kosong = pemilik repo (otomatis di GitHub Actions)",
-      "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,38}$"
-    },
+      "description": "Satu baris",
+      "maxLength": 56
+     },
+     "maxItems": 2
+    }
+   ]
+  },
+  "audience": {
+   "type": "string",
+   "description": "Untuk siapa layananmu",
+   "maxLength": 40
+  },
+  "mode": {
+   "type": "string",
+   "description": "Kata suasana di kartu terminal hijau, contoh: jinak",
+   "maxLength": 16
+  },
+  "badge": {
+   "type": "string",
+   "description": "Teks kecil di pojok kanan atas kartu",
+   "maxLength": 20
+  },
+  "mascot": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
     "name": {
+     "type": "string",
+     "description": "Nama maskot",
+     "maxLength": 14
+    },
+    "caption": {
+     "type": "string",
+     "description": "Keterangan di bawah maskot",
+     "maxLength": 30
+    }
+   }
+  },
+  "sections": {
+   "type": "array",
+   "description": "Bagian yang tampil di README, urutannya = urutan tampil",
+   "items": {
+    "enum": [
+     "hero",
+     "neofetch",
+     "terminal",
+     "brand",
+     "sheet",
+     "typing",
+     "skills",
+     "connect",
+     "featured",
+     "portfolio",
+     "articles",
+     "activity"
+    ]
+   },
+   "uniqueItems": true
+  },
+  "button_mode": {
+   "enum": [
+    "each",
+    "last",
+    "none"
+   ],
+   "description": "each = tombol di bawah tiap kartu, last = hanya kartu terakhir, none = tanpa tombol"
+  },
+  "buttons": {
+   "type": "array",
+   "description": "Satu atau dua tombol",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "label",
+     "url"
+    ],
+    "properties": {
+     "label": {
       "type": "string",
-      "description": "Nama brand atau nama kamu",
-      "minLength": 1,
+      "description": "Teks tombol",
       "maxLength": 24
-    },
-    "suffix": {
-      "type": "string",
-      "description": "Akhiran nama yang diberi warna aksen, contoh: .dev",
-      "maxLength": 10
-    },
-    "domain": {
-      "type": "string",
-      "description": "Domain tanpa https://, contoh: pawang.dev",
-      "maxLength": 40
-    },
-    "website": {
+     },
+     "url": {
       "type": "string",
       "pattern": "^https?://",
-      "description": "Tautan saat kartu diklik dan tombol pertama"
-    },
-    "email": {
+      "description": "URL lengkap diawali http:// atau https://"
+     }
+    }
+   },
+   "maxItems": 2
+  },
+  "info": {
+   "type": "array",
+   "description": "Baris info kartu neofetch dan terminal",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "label",
+     "value"
+    ],
+    "properties": {
+     "label": {
       "type": "string",
-      "description": "Alamat email kontak",
-      "maxLength": 50
-    },
-    "tagline": {
+      "description": "Label",
+      "maxLength": 12
+     },
+     "value": {
       "type": "string",
-      "description": "Kalimat utama",
-      "maxLength": 60
+      "description": "Isi",
+      "maxLength": 52
+     },
+     "terminal": {
+      "type": "boolean",
+      "description": "false = tidak ditampilkan di kartu terminal hijau"
+     }
+    }
+   },
+   "maxItems": 7
+  },
+  "prompt": {
+   "type": "string",
+   "description": "Perintah di baris prompt kartu neofetch",
+   "maxLength": 60
+  },
+  "hero": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "line1": {
+     "type": "string",
+     "description": "Baris 1 headline",
+     "maxLength": 22
     },
-    "tagline_accent": {
+    "line2": {
+     "type": "string",
+     "description": "Baris 2 headline",
+     "maxLength": 26
+    },
+    "accent": {
+     "type": "string",
+     "description": "Bagian baris 2 yang diberi warna aksen",
+     "maxLength": 26
+    },
+    "chips": {
+     "type": "array",
+     "description": "Label kecil di bawah deskripsi",
+     "items": {
       "type": "string",
-      "description": "Bagian tagline yang diberi warna aksen (harus ada di dalam tagline)",
-      "maxLength": 60
-    },
-    "description": {
-      "description": "Deskripsi singkat, maksimal 2 baris",
-      "oneOf": [
-        {
-          "type": "string",
-          "description": "Satu baris",
-          "maxLength": 56
-        },
-        {
-          "type": "array",
-          "description": "Maksimal 2 baris",
-          "items": {
-            "type": "string",
-            "description": "Satu baris",
-            "maxLength": 56
-          },
-          "maxItems": 2
-        }
-      ]
-    },
-    "audience": {
-      "type": "string",
-      "description": "Untuk siapa layananmu",
-      "maxLength": 40
-    },
-    "mode": {
-      "type": "string",
-      "description": "Kata suasana di kartu terminal hijau, contoh: jinak",
-      "maxLength": 16
-    },
-    "badge": {
-      "type": "string",
-      "description": "Teks kecil di pojok kanan atas kartu",
-      "maxLength": 20
-    },
-    "mascot": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Nama maskot",
-          "maxLength": 14
-        },
-        "caption": {
-          "type": "string",
-          "description": "Keterangan di bawah maskot",
-          "maxLength": 30
-        }
-      }
-    },
-    "sections": {
-      "type": "array",
-      "description": "Bagian yang tampil di README, urutannya = urutan tampil",
-      "items": {
-        "enum": [
-          "hero",
-          "neofetch",
-          "terminal",
-          "brand",
-          "sheet",
-          "typing",
-          "skills",
-          "social"
-        ]
-      },
-      "uniqueItems": true
-    },
-    "button_mode": {
+      "description": "Label",
+      "maxLength": 10
+     },
+     "maxItems": 6
+    }
+   }
+  },
+  "services": {
+   "type": "array",
+   "description": "Daftar layanan untuk kartu brand (maks 5 jika ada paket, 6 jika tidak)",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "title"
+    ],
+    "properties": {
+     "icon": {
       "enum": [
-        "each",
-        "last",
-        "none"
-      ],
-      "description": "each = tombol di bawah tiap kartu, last = hanya kartu terakhir, none = tanpa tombol"
-    },
-    "buttons": {
+       "web",
+       "seo",
+       "sheet",
+       "otomasi",
+       "rawat",
+       "code",
+       "design",
+       "chart",
+       "chat",
+       "mail",
+       "star"
+      ]
+     },
+     "title": {
+      "type": "string",
+      "description": "Nama layanan",
+      "maxLength": 18
+     },
+     "promise": {
       "type": "array",
-      "description": "Satu atau dua tombol",
+      "description": "Janji layanan, maksimal 2 baris",
       "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "label",
-          "url"
-        ],
-        "properties": {
-          "label": {
-            "type": "string",
-            "description": "Teks tombol",
-            "maxLength": 24
-          },
-          "url": {
-            "type": "string",
-            "pattern": "^https?://",
-            "description": "URL lengkap diawali http:// atau https://"
-          }
-        }
+       "type": "string",
+       "description": "Satu baris",
+       "maxLength": 30
       },
       "maxItems": 2
-    },
-    "info": {
-      "type": "array",
-      "description": "Baris info kartu neofetch dan terminal",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "label",
-          "value"
-        ],
-        "properties": {
-          "label": {
-            "type": "string",
-            "description": "Label",
-            "maxLength": 12
-          },
-          "value": {
-            "type": "string",
-            "description": "Isi",
-            "maxLength": 52
-          },
-          "terminal": {
-            "type": "boolean",
-            "description": "false = tidak ditampilkan di kartu terminal hijau"
-          }
-        }
-      },
-      "maxItems": 7
-    },
-    "prompt": {
+     },
+     "detail": {
       "type": "string",
-      "description": "Perintah di baris prompt kartu neofetch",
-      "maxLength": 60
-    },
-    "hero": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "line1": {
-          "type": "string",
-          "description": "Baris 1 headline",
-          "maxLength": 22
-        },
-        "line2": {
-          "type": "string",
-          "description": "Baris 2 headline",
-          "maxLength": 26
-        },
-        "accent": {
-          "type": "string",
-          "description": "Bagian baris 2 yang diberi warna aksen",
-          "maxLength": 26
-        },
-        "chips": {
-          "type": "array",
-          "description": "Label kecil di bawah deskripsi",
-          "items": {
-            "type": "string",
-            "description": "Label",
-            "maxLength": 10
-          },
-          "maxItems": 6
-        }
-      }
-    },
-    "services": {
-      "type": "array",
-      "description": "Daftar layanan untuk kartu brand (maks 5 jika ada paket, 6 jika tidak)",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "title"
-        ],
-        "properties": {
-          "icon": {
-            "enum": [
-              "web",
-              "seo",
-              "sheet",
-              "otomasi",
-              "rawat",
-              "code",
-              "design",
-              "chart",
-              "chat",
-              "mail",
-              "star"
-            ]
-          },
-          "title": {
-            "type": "string",
-            "description": "Nama layanan",
-            "maxLength": 18
-          },
-          "promise": {
-            "type": "array",
-            "description": "Janji layanan, maksimal 2 baris",
-            "items": {
-              "type": "string",
-              "description": "Satu baris",
-              "maxLength": 30
-            },
-            "maxItems": 2
-          },
-          "detail": {
-            "type": "string",
-            "description": "Rincian singkat",
-            "maxLength": 36
-          }
-        }
-      },
-      "maxItems": 6
-    },
-    "packages": {
-      "type": "array",
-      "description": "Paket, maksimal 3",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "name"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Nama paket",
-            "maxLength": 9
-          },
-          "desc": {
-            "type": "string",
-            "description": "Keterangan",
-            "maxLength": 10
-          }
-        }
-      },
-      "maxItems": 3
-    },
-    "values": {
-      "type": "array",
-      "description": "Nilai brand, maksimal 3",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "name"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Nilai",
-            "maxLength": 8
-          },
-          "desc": {
-            "type": "string",
-            "description": "Keterangan",
-            "maxLength": 16
-          }
-        }
-      },
-      "maxItems": 3
-    },
-    "sheet": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "labels": {
-          "type": "array",
-          "description": "Dua label: sebelum dan sesudah",
-          "items": {
-            "type": "string",
-            "description": "Label",
-            "maxLength": 16
-          },
-          "minItems": 2,
-          "maxItems": 2
-        },
-        "messy": {
-          "type": "array",
-          "description": "Isi sel berantakan, maksimal 12",
-          "items": {
-            "type": "string",
-            "description": "Isi sel",
-            "maxLength": 14
-          },
-          "maxItems": 12
-        },
-        "caption": {
-          "type": "string",
-          "description": "Kalimat bawah",
-          "maxLength": 50
-        },
-        "accent": {
-          "type": "string",
-          "description": "Lanjutan kalimat bawah (berwarna aksen)",
-          "maxLength": 50
-        }
-      }
-    },
-    "typing": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "command": {
-          "type": "string",
-          "description": "Perintah yang diketik",
-          "maxLength": 60
-        },
-        "steps": {
-          "type": "array",
-          "description": "Langkah yang tampil setelah perintah",
-          "items": {
-            "type": "string",
-            "description": "Langkah",
-            "maxLength": 40
-          },
-          "maxItems": 6
-        },
-        "stats_command": {
-          "type": "string",
-          "description": "Perintah untuk blok statistik",
-          "maxLength": 30
-        }
-      }
+      "description": "Rincian singkat",
+      "maxLength": 36
+     }
     }
+   },
+   "maxItems": 6
+  },
+  "packages": {
+   "type": "array",
+   "description": "Paket, maksimal 3",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "name"
+    ],
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Nama paket",
+      "maxLength": 9
+     },
+     "desc": {
+      "type": "string",
+      "description": "Keterangan",
+      "maxLength": 10
+     }
+    }
+   },
+   "maxItems": 3
+  },
+  "values": {
+   "type": "array",
+   "description": "Nilai brand, maksimal 3",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "name"
+    ],
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Nilai",
+      "maxLength": 8
+     },
+     "desc": {
+      "type": "string",
+      "description": "Keterangan",
+      "maxLength": 16
+     }
+    }
+   },
+   "maxItems": 3
+  },
+  "sheet": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "labels": {
+     "type": "array",
+     "description": "Dua label: sebelum dan sesudah",
+     "items": {
+      "type": "string",
+      "description": "Label",
+      "maxLength": 16
+     },
+     "minItems": 2,
+     "maxItems": 2
+    },
+    "messy": {
+     "type": "array",
+     "description": "Isi sel berantakan, maksimal 12",
+     "items": {
+      "type": "string",
+      "description": "Isi sel",
+      "maxLength": 14
+     },
+     "maxItems": 12
+    },
+    "caption": {
+     "type": "string",
+     "description": "Kalimat bawah",
+     "maxLength": 50
+    },
+    "accent": {
+     "type": "string",
+     "description": "Lanjutan kalimat bawah (berwarna aksen)",
+     "maxLength": 50
+    }
+   }
+  },
+  "typing": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "command": {
+     "type": "string",
+     "description": "Perintah yang diketik",
+     "maxLength": 60
+    },
+    "steps": {
+     "type": "array",
+     "description": "Langkah yang tampil setelah perintah",
+     "items": {
+      "type": "string",
+      "description": "Langkah",
+      "maxLength": 40
+     },
+     "maxItems": 6
+    },
+    "stats_command": {
+     "type": "string",
+     "description": "Perintah untuk blok statistik",
+     "maxLength": 30
+    }
+   }
+  },
+  "connect": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Connect with me: akun yang mau ditampilkan. Kosong = bagian tidak tampil",
+   "properties": {
+    "title": {
+     "type": "string",
+     "description": "Judul kartu",
+     "maxLength": 40
+    },
+    "subtitle": {
+     "type": "string",
+     "description": "Keterangan di bawah judul",
+     "maxLength": 60
+    },
+    "style": {
+     "enum": [
+      "auto",
+      "text",
+      "icon"
+     ],
+     "description": "auto = logo dan teks untuk 1-4 akun, ikon saja jika lebih; text; icon"
+    },
+    "links": {
+     "type": "object",
+     "additionalProperties": false,
+     "description": "Isi handle atau URL. Kosongkan untuk melewati.",
+     "properties": {
+      "instagram": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Handle (tanpa @) atau URL lengkap"
+      },
+      "tiktok": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Handle (tanpa @) atau URL lengkap"
+      },
+      "youtube": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Handle (tanpa @) atau URL lengkap"
+      },
+      "linkedin": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Tulis in/nama, company/nama, atau URL"
+      },
+      "facebook": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Handle (tanpa @) atau URL lengkap"
+      },
+      "x": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Handle (tanpa @) atau URL lengkap"
+      },
+      "threads": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Handle (tanpa @) atau URL lengkap"
+      },
+      "pinterest": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Handle (tanpa @) atau URL lengkap"
+      },
+      "discord": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Kode undangan atau URL"
+      },
+      "google-business-profile": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Wajib URL lengkap"
+      },
+      "whatsapp": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Nomor internasional tanpa 0 di depan, contoh 6281234567890"
+      },
+      "telegram": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Handle tanpa @"
+      },
+      "email": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "url": {
+           "type": "string",
+           "pattern": "^https?://"
+          },
+          "handle": {
+           "type": "string"
+          },
+          "label": {
+           "type": "string"
+          }
+         }
+        }
+       ],
+       "description": "Alamat email"
+      }
+     }
+    }
+   }
+  },
+  "skills": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Skill Set. Kosong = bagian tidak tampil",
+   "properties": {
+    "style": {
+     "enum": [
+      "original",
+      "plain",
+      "line"
+     ],
+     "description": "original = berwarna, plain = satu warna, line = garis"
+    },
+    "layout": {
+     "enum": [
+      "card",
+      "row"
+     ],
+     "description": "card = kartu berkelompok, row = baris ikon tanpa kartu"
+    },
+    "title": {
+     "type": "string",
+     "description": "Judul",
+     "maxLength": 40
+    },
+    "subtitle": {
+     "type": "string",
+     "description": "Keterangan di kanan judul",
+     "maxLength": 60
+    },
+    "skills": {
+     "type": "array",
+     "description": "Daftar tanpa grup",
+     "items": {
+      "oneOf": [
+       {
+        "$ref": "#/definitions/skillName"
+       },
+       {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "name": {
+          "$ref": "#/definitions/skillName"
+         },
+         "label": {
+          "type": "string",
+          "description": "Teks yang tampil"
+         },
+         "custom": {
+          "type": "string",
+          "description": "Nama file di assets/images/skills/"
+         }
+        }
+       }
+      ]
+     },
+     "maxItems": 60
+    },
+    "groups": {
+     "type": "object",
+     "description": "Nama grup: daftar skill",
+     "additionalProperties": {
+      "type": "array",
+      "description": "Daftar skill dalam grup",
+      "items": {
+       "oneOf": [
+        {
+         "$ref": "#/definitions/skillName"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "name": {
+           "$ref": "#/definitions/skillName"
+          },
+          "label": {
+           "type": "string",
+           "description": "Teks yang tampil"
+          },
+          "custom": {
+           "type": "string",
+           "description": "Nama file di assets/images/skills/"
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  "featured": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Featured projects dari GitHub",
+   "properties": {
+    "title": {
+     "type": "string",
+     "description": "Judul",
+     "maxLength": 40
+    },
+    "subtitle": {
+     "type": "string",
+     "description": "Keterangan",
+     "maxLength": 60
+    },
+    "source": {
+     "enum": [
+      "pinned",
+      "popular",
+      "manual"
+     ],
+     "description": "pinned = pin GitHub (tanpa pin: populer), popular = repo terpopuler, manual = daftar repos"
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 6,
+     "description": "Jumlah repo"
+    },
+    "repos": {
+     "type": "array",
+     "description": "Dipakai jika source = manual",
+     "items": {
+      "oneOf": [
+       {
+        "type": "string",
+        "description": "Nama repo atau pemilik/repo"
+       },
+       {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "repo"
+        ],
+        "properties": {
+         "repo": {
+          "type": "string",
+          "description": "Nama repo atau pemilik/repo"
+         },
+         "description": {
+          "type": "string",
+          "description": "Deskripsi pengganti",
+          "maxLength": 120
+         }
+        }
+       }
+      ]
+     },
+     "maxItems": 6
+    }
+   }
+  },
+  "portfolio": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Portofolio hasil kerja. Kosong = bagian tidak tampil",
+   "properties": {
+    "title": {
+     "type": "string",
+     "description": "Judul",
+     "maxLength": 40
+    },
+    "subtitle": {
+     "type": "string",
+     "description": "Keterangan",
+     "maxLength": 60
+    },
+    "items": {
+     "type": "array",
+     "description": "Maksimal 6 karya",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "title"
+      ],
+      "properties": {
+       "title": {
+        "type": "string",
+        "description": "Judul karya",
+        "maxLength": 24
+       },
+       "tag": {
+        "type": "string",
+        "description": "Jenis, contoh: WEBSITE",
+        "maxLength": 14
+       },
+       "description": {
+        "type": "string",
+        "description": "Deskripsi singkat",
+        "maxLength": 40
+       },
+       "result": {
+        "type": "string",
+        "description": "Hasil (isi hanya klaim yang benar)",
+        "maxLength": 36
+       },
+       "url": {
+        "type": "string",
+        "pattern": "^https?://",
+        "description": "Tautan saat kartu diklik"
+       },
+       "image": {
+        "type": "string",
+        "description": "Nama file di assets/images/portfolio/ (png, jpg, webp)",
+        "maxLength": 80
+       },
+       "thumb": {
+        "enum": [
+         "web",
+         "chart",
+         "chat"
+        ],
+        "description": "Sketsa bawaan jika tanpa gambar"
+       }
+      }
+     },
+     "maxItems": 6
+    }
+   }
+  },
+  "articles": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Artikel terbaru dari feed RSS atau Atom",
+   "properties": {
+    "title": {
+     "type": "string",
+     "description": "Judul",
+     "maxLength": 40
+    },
+    "subtitle": {
+     "type": "string",
+     "description": "Keterangan",
+     "maxLength": 60
+    },
+    "feeds": {
+     "type": "array",
+     "description": "Alamat feed, dicoba berurutan",
+     "items": {
+      "type": "string",
+      "pattern": "^https?://"
+     },
+     "maxItems": 3
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 6,
+     "description": "Jumlah artikel"
+    }
+   }
+  },
+  "activity": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Aktivitas publik terbaru di GitHub",
+   "properties": {
+    "title": {
+     "type": "string",
+     "description": "Judul",
+     "maxLength": 40
+    },
+    "subtitle": {
+     "type": "string",
+     "description": "Keterangan",
+     "maxLength": 60
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 8,
+     "description": "Jumlah baris"
+    }
+   }
   }
+ }
 }

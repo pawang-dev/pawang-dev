@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Membuat JSON Schema (assets/data/schema/*.schema.json) dari konstanta di kode, supaya editor
-(VS Code dan sejenisnya) memberi saran dan peringatan saat mengisi assets/data/*.json.
+"""Membuat JSON Schema (assets/data/schema/profile.schema.json) dari konstanta di kode, supaya editor
+(VS Code dan sejenisnya) memberi saran dan peringatan saat mengisi assets/data/profile.json.
 
 Dijalankan setiap kali daftar bagian, ikon, platform, atau paket ikon berubah.
 """
@@ -11,9 +11,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from common import DATA, SKILL_ICONS, VENDOR  # noqa: E402
 from i18n import LANGUAGES  # noqa: E402
-from profile_loader import BUTTON_MODES, ICONS, SECTIONS  # noqa: E402
-from sections.social import PLATFORMS  # noqa: E402
-from sections.skills import STYLES  # noqa: E402
+from profile_loader import (BUTTON_MODES, CONNECT_STYLES, FEATURED_SOURCES, ICONS, SECTIONS, SKILL_LAYOUTS,  # noqa: E402
+                            SKILL_STYLES, THUMBS)
+from sections.connect import PLATFORMS  # noqa: E402
 
 DRAFT = "http://json-schema.org/draft-07/schema#"
 SCHEMA_DIR = DATA / "schema"
@@ -27,11 +27,32 @@ def arr(items, desc, **kw):
     return {"type": "array", "description": desc, "items": items, **kw}
 
 
+LINK_ENTRY = {"oneOf": [{"type": "string"}, {"type": "object", "additionalProperties": False,
+                                "properties": {"url": {"type": "string", "pattern": "^https?://"}, "handle": {"type": "string"}, "label": {"type": "string"}}}]}
+LINK_HINTS = {"linkedin": "Tulis in/nama, company/nama, atau URL", "discord": "Kode undangan atau URL",
+              "google-business-profile": "Wajib URL lengkap", "whatsapp": "Nomor internasional tanpa 0 di depan, contoh 6281234567890",
+              "telegram": "Handle tanpa @", "email": "Alamat email"}
+SKILL_ITEM = {"oneOf": [{"$ref": "#/definitions/skillName"}, {"type": "object", "additionalProperties": False, "properties": {
+    "name": {"$ref": "#/definitions/skillName"}, "label": {"type": "string", "description": "Teks yang tampil"},
+    "custom": {"type": "string", "description": "Nama file di assets/images/skills/"}}}]}
+
+
+def skill_names():
+    names = set()
+    idx = VENDOR / "devicon" / "devicon.json"
+    if idx.exists():
+        names.update(e["name"] for e in json.loads(idx.read_text(encoding="utf-8")))
+    if SKILL_ICONS.exists():
+        names.update(p.stem.lower() for p in SKILL_ICONS.iterdir() if p.suffix.lower() in (".png", ".svg", ".webp", ".jpg", ".jpeg"))
+    return sorted(names)
+
+
 def profile_schema():
     url = {"type": "string", "pattern": "^https?://", "description": "URL lengkap diawali http:// atau https://"}
     return {
         "$schema": DRAFT, "title": "profile.json", "type": "object", "additionalProperties": False,
         "required": ["name"],
+        "definitions": {"skillName": {"type": "string", "description": "Nama teknologi (devicon) atau nama ikon kustom", "examples": skill_names()}},
         "properties": {
             "$schema": {"type": "string"},
             "language": {"enum": list(LANGUAGES), "description": "Bahasa teks bawaan kartu (id atau en)"},
@@ -39,7 +60,6 @@ def profile_schema():
             "name": s("Nama brand atau nama kamu", minLength=1, maxLength=24),
             "suffix": s("Akhiran nama yang diberi warna aksen, contoh: .dev", maxLength=10),
             "domain": s("Domain tanpa https://, contoh: pawang.dev", maxLength=40),
-            "website": {**url, "description": "Tautan saat kartu diklik dan tombol pertama"},
             "email": s("Alamat email kontak", maxLength=50),
             "tagline": s("Kalimat utama", maxLength=60),
             "tagline_accent": s("Bagian tagline yang diberi warna aksen (harus ada di dalam tagline)", maxLength=60),
@@ -79,62 +99,47 @@ def profile_schema():
                 "command": s("Perintah yang diketik", maxLength=60),
                 "steps": arr(s("Langkah", maxLength=40), "Langkah yang tampil setelah perintah", maxItems=6),
                 "stats_command": s("Perintah untuk blok statistik", maxLength=30)}},
-        },
-    }
-
-
-def social_schema():
-    entry = {"oneOf": [{"type": "string"}, {"type": "object", "additionalProperties": False,
-                       "properties": {"url": {"type": "string", "pattern": "^https?://"}, "handle": {"type": "string"}, "label": {"type": "string"}}}]}
-    hints = {"linkedin": "Tulis in/nama atau company/nama atau URL", "discord": "Kode undangan atau URL",
-             "google-business-profile": "Wajib URL lengkap"}
-    return {
-        "$schema": DRAFT, "title": "social.json", "type": "object", "additionalProperties": False,
-        "properties": {
-            "$schema": {"type": "string"},
-            "style": {"enum": ["auto", "pill", "icon"], "description": "auto = tombol untuk 1-3 platform, ikon jika lebih; pill = tombol; icon = ikon saja"},
-            "title": s("Judul bagian", maxLength=40),
-            "links": {"type": "object", "additionalProperties": False, "description": "Isi handle atau URL. Kosongkan untuk melewati.",
-                      "properties": {k: {**entry, "description": hints.get(k, "Handle (tanpa @) atau URL lengkap")} for k in PLATFORMS}},
-        },
-    }
-
-
-def skills_schema():
-    names = set()
-    idx = VENDOR / "devicon" / "devicon.json"
-    if idx.exists():
-        for e in json.loads(idx.read_text(encoding="utf-8")):
-            names.add(e["name"])
-    if SKILL_ICONS.exists():
-        names.update(p.stem.lower() for p in SKILL_ICONS.iterdir() if p.suffix.lower() in (".png", ".svg", ".webp", ".jpg", ".jpeg"))
-    name_ref = {"$ref": "#/definitions/skillName"}
-    item = {"oneOf": [
-        name_ref,
-        {"type": "object", "additionalProperties": False, "properties": {
-            "name": name_ref, "label": {"type": "string", "description": "Teks yang tampil"},
-            "custom": {"type": "string", "description": "Nama file di assets/images/skills/"}}}]}
-    return {
-        "$schema": DRAFT, "title": "skills.json", "type": "object", "additionalProperties": False,
-        "definitions": {"skillName": {"type": "string", "description": "Nama teknologi (devicon) atau nama ikon kustom",
-                                      "examples": sorted(names)}},
-        "properties": {
-            "$schema": {"type": "string"},
-            "style": {"enum": list(STYLES), "description": "original = berwarna, plain = satu warna, line = garis"},
-            "layout": {"enum": ["card", "row"], "description": "card = kartu berkelompok, row = baris ikon tanpa kartu"},
-            "title": s("Judul", maxLength=40), "subtitle": s("Keterangan di kanan judul", maxLength=60),
-            "skills": arr(item, "Daftar tanpa grup", maxItems=60),
-            "groups": {"type": "object", "description": "Nama grup: daftar skill", "additionalProperties": arr(item, "Daftar skill dalam grup")},
+            "connect": {"type": "object", "additionalProperties": False, "description": "Connect with me: akun yang mau ditampilkan. Kosong = bagian tidak tampil", "properties": {
+                "title": s("Judul kartu", maxLength=40), "subtitle": s("Keterangan di bawah judul", maxLength=60),
+                "style": {"enum": list(CONNECT_STYLES), "description": "auto = logo dan teks untuk 1-4 akun, ikon saja jika lebih; text; icon"},
+                "links": {"type": "object", "additionalProperties": False, "description": "Isi handle atau URL. Kosongkan untuk melewati.",
+                          "properties": {k: {**LINK_ENTRY, "description": LINK_HINTS.get(k, "Handle (tanpa @) atau URL lengkap")} for k in PLATFORMS}}}},
+            "skills": {"type": "object", "additionalProperties": False, "description": "Skill Set. Kosong = bagian tidak tampil", "properties": {
+                "style": {"enum": list(SKILL_STYLES), "description": "original = berwarna, plain = satu warna, line = garis"},
+                "layout": {"enum": list(SKILL_LAYOUTS), "description": "card = kartu berkelompok, row = baris ikon tanpa kartu"},
+                "title": s("Judul", maxLength=40), "subtitle": s("Keterangan di kanan judul", maxLength=60),
+                "skills": arr(SKILL_ITEM, "Daftar tanpa grup", maxItems=60),
+                "groups": {"type": "object", "description": "Nama grup: daftar skill", "additionalProperties": arr(SKILL_ITEM, "Daftar skill dalam grup")}}},
+            "featured": {"type": "object", "additionalProperties": False, "description": "Featured projects dari GitHub", "properties": {
+                "title": s("Judul", maxLength=40), "subtitle": s("Keterangan", maxLength=60),
+                "source": {"enum": list(FEATURED_SOURCES), "description": "pinned = pin GitHub (tanpa pin: populer), popular = repo terpopuler, manual = daftar repos"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 6, "description": "Jumlah repo"},
+                "repos": arr({"oneOf": [s("Nama repo atau pemilik/repo"), {"type": "object", "additionalProperties": False, "required": ["repo"], "properties": {
+                    "repo": s("Nama repo atau pemilik/repo"), "description": s("Deskripsi pengganti", maxLength=120)}}]}, "Dipakai jika source = manual", maxItems=6)}},
+            "portfolio": {"type": "object", "additionalProperties": False, "description": "Portofolio hasil kerja. Kosong = bagian tidak tampil", "properties": {
+                "title": s("Judul", maxLength=40), "subtitle": s("Keterangan", maxLength=60),
+                "items": arr({"type": "object", "additionalProperties": False, "required": ["title"], "properties": {
+                    "title": s("Judul karya", maxLength=24), "tag": s("Jenis, contoh: WEBSITE", maxLength=14),
+                    "description": s("Deskripsi singkat", maxLength=40), "result": s("Hasil (isi hanya klaim yang benar)", maxLength=36),
+                    "url": {"type": "string", "pattern": "^https?://", "description": "Tautan saat kartu diklik"},
+                    "image": s("Nama file di assets/images/portfolio/ (png, jpg, webp)", maxLength=80),
+                    "thumb": {"enum": list(THUMBS), "description": "Sketsa bawaan jika tanpa gambar"}}}, "Maksimal 6 karya", maxItems=6)}},
+            "articles": {"type": "object", "additionalProperties": False, "description": "Artikel terbaru dari feed RSS atau Atom", "properties": {
+                "title": s("Judul", maxLength=40), "subtitle": s("Keterangan", maxLength=60),
+                "feeds": arr({"type": "string", "pattern": "^https?://"}, "Alamat feed, dicoba berurutan", maxItems=3),
+                "limit": {"type": "integer", "minimum": 1, "maximum": 6, "description": "Jumlah artikel"}}},
+            "activity": {"type": "object", "additionalProperties": False, "description": "Aktivitas publik terbaru di GitHub", "properties": {
+                "title": s("Judul", maxLength=40), "subtitle": s("Keterangan", maxLength=60),
+                "limit": {"type": "integer", "minimum": 1, "maximum": 8, "description": "Jumlah baris"}}},
         },
     }
 
 
 def main():
     SCHEMA_DIR.mkdir(parents=True, exist_ok=True)
-    for name, fn in (("profile", profile_schema), ("social", social_schema), ("skills", skills_schema)):
-        text = json.dumps(fn(), ensure_ascii=False, separators=(",", ":")) if name == "skills" else json.dumps(fn(), ensure_ascii=False, indent=2)
-        (SCHEMA_DIR / f"{name}.schema.json").write_text(text + "\n", encoding="utf-8")
-        print("tulis", f"assets/data/schema/{name}.schema.json")
+    text = json.dumps(profile_schema(), ensure_ascii=False, indent=1)
+    (SCHEMA_DIR / "profile.schema.json").write_text(text + "\n", encoding="utf-8")
+    print("tulis assets/data/schema/profile.schema.json")
 
 
 if __name__ == "__main__":

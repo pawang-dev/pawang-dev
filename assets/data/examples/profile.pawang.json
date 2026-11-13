@@ -5,7 +5,6 @@
   "name": "Pawang",
   "suffix": ".dev",
   "domain": "pawang.dev",
-  "website": "https://www.pawang.dev",
   "email": "halo@pawang.dev",
   "tagline": "Digitalmu liar? Serahkan ke Pawang.",
   "tagline_accent": "Serahkan ke Pawang.",
@@ -16,49 +15,170 @@
   "audience": "UMKM Indonesia",
   "mode": "jinak",
   "badge": "v1.0 · jinak",
-  "mascot": { "name": "Dev", "caption": "Maskot resmi Pawang" },
-  "sections": ["neofetch", "skills", "social"],
+  "mascot": {
+    "name": "Dev",
+    "caption": "Maskot resmi Pawang"
+  },
+  "sections": [
+    "hero",
+    "neofetch",
+    "skills",
+    "featured",
+    "portfolio",
+    "articles",
+    "activity",
+    "connect"
+  ],
   "button_mode": "each",
   "buttons": [
-    { "label": "PAWANG.DEV", "url": "https://www.pawang.dev" },
-    { "label": "KONSULTASI GRATIS", "url": "https://www.pawang.dev/kontak-pawang" }
+    {
+      "label": "PAWANG.DEV",
+      "url": "https://www.pawang.dev"
+    },
+    {
+      "label": "KONSULTASI GRATIS",
+      "url": "https://www.pawang.dev/kontak-pawang"
+    }
   ],
   "info": [
-    { "label": "Brand", "value": "Pawang.dev", "terminal": false },
-    { "label": "Tagline", "value": "Digitalmu liar? Serahkan ke Pawang.", "terminal": false },
-    { "label": "Layanan", "value": "Web · SEO · Sheet · Otomasi · Rawat" },
-    { "label": "Paket", "value": "Jinak → Piawai → Sakti" },
-    { "label": "Nilai", "value": "Tenang, Paham, Jinak" },
-    { "label": "Untuk", "value": "UMKM Indonesia" },
-    { "label": "Kontak", "value": "halo@pawang.dev" }
+    {
+      "label": "Brand",
+      "value": "Pawang.dev",
+      "terminal": false
+    },
+    {
+      "label": "Tagline",
+      "value": "Digitalmu liar? Serahkan ke Pawang.",
+      "terminal": false
+    },
+    {
+      "label": "Layanan",
+      "value": "Web · SEO · Sheet · Otomasi · Rawat"
+    },
+    {
+      "label": "Paket",
+      "value": "Jinak → Piawai → Sakti"
+    },
+    {
+      "label": "Nilai",
+      "value": "Tenang, Paham, Jinak"
+    },
+    {
+      "label": "Untuk",
+      "value": "UMKM Indonesia"
+    },
+    {
+      "label": "Kontak",
+      "value": "halo@pawang.dev"
+    }
   ],
   "prompt": "pawang --jinakkan DEV (digital, efisien, valid)",
   "hero": {
     "line1": "Digitalmu liar?",
     "line2": "Serahkan ke Pawang.",
     "accent": "Pawang.",
-    "chips": ["Web", "SEO", "Sheet", "Otomasi", "Rawat"]
+    "chips": [
+      "Web",
+      "SEO",
+      "Sheet",
+      "Otomasi",
+      "Rawat"
+    ]
   },
   "services": [
-    { "icon": "web", "title": "Pawang Web", "promise": ["Website yang jinak: cepat,", "rapi, mudah diurus."], "detail": "Company profile & landing page" },
-    { "icon": "seo", "title": "Pawang SEO", "promise": ["Biar usahamu ditemukan,", "bukan sekadar tampil."], "detail": "Riset kata kunci & laporan bulanan" },
-    { "icon": "sheet", "title": "Pawang Sheet", "promise": ["Angka berantakan", "jadi jelas."], "detail": "Dashboard & laporan otomatis" },
-    { "icon": "otomasi", "title": "Pawang Otomasi", "promise": ["Kerja berulang", "dikerjakan sendiri."], "detail": "Notifikasi WhatsApp & sinkron data" },
-    { "icon": "rawat", "title": "Pawang Rawat", "promise": ["Setelah proyek selesai,", "tetap ada yang jaga."], "detail": "Perawatan & update bulanan" }
+    {
+      "icon": "web",
+      "title": "Pawang Web",
+      "promise": [
+        "Website yang jinak: cepat,",
+        "rapi, mudah diurus."
+      ],
+      "detail": "Company profile & landing page"
+    },
+    {
+      "icon": "seo",
+      "title": "Pawang SEO",
+      "promise": [
+        "Biar usahamu ditemukan,",
+        "bukan sekadar tampil."
+      ],
+      "detail": "Riset kata kunci & laporan bulanan"
+    },
+    {
+      "icon": "sheet",
+      "title": "Pawang Sheet",
+      "promise": [
+        "Angka berantakan",
+        "jadi jelas."
+      ],
+      "detail": "Dashboard & laporan otomatis"
+    },
+    {
+      "icon": "otomasi",
+      "title": "Pawang Otomasi",
+      "promise": [
+        "Kerja berulang",
+        "dikerjakan sendiri."
+      ],
+      "detail": "Notifikasi WhatsApp & sinkron data"
+    },
+    {
+      "icon": "rawat",
+      "title": "Pawang Rawat",
+      "promise": [
+        "Setelah proyek selesai,",
+        "tetap ada yang jaga."
+      ],
+      "detail": "Perawatan & update bulanan"
+    }
   ],
   "packages": [
-    { "name": "Jinak", "desc": "Dasar" },
-    { "name": "Piawai", "desc": "Menengah" },
-    { "name": "Sakti", "desc": "Premium" }
+    {
+      "name": "Jinak",
+      "desc": "Dasar"
+    },
+    {
+      "name": "Piawai",
+      "desc": "Menengah"
+    },
+    {
+      "name": "Sakti",
+      "desc": "Premium"
+    }
   ],
   "values": [
-    { "name": "Tenang", "desc": "tidak panik" },
-    { "name": "Paham", "desc": "mengerti dulu" },
-    { "name": "Jinak", "desc": "mudah dipakai" }
+    {
+      "name": "Tenang",
+      "desc": "tidak panik"
+    },
+    {
+      "name": "Paham",
+      "desc": "mengerti dulu"
+    },
+    {
+      "name": "Jinak",
+      "desc": "mudah dipakai"
+    }
   ],
   "sheet": {
-    "labels": ["DATA LIAR", "JADI JINAK"],
-    "messy": ["#REF!", "???", "12/3", "Rp ?", "N/A", "0,0", "dup?", "KOSONG", "3x lipat", "revisi_final2", "xlsx (1)", "#N/A"],
+    "labels": [
+      "DATA LIAR",
+      "JADI JINAK"
+    ],
+    "messy": [
+      "#REF!",
+      "???",
+      "12/3",
+      "Rp ?",
+      "N/A",
+      "0,0",
+      "dup?",
+      "KOSONG",
+      "3x lipat",
+      "revisi_final2",
+      "xlsx (1)",
+      "#N/A"
+    ],
     "caption": "Data tercecer di lima tempat?",
     "accent": "Kami kumpulkan jadi satu dashboard."
   },
@@ -71,5 +191,98 @@
       "menjinakkan digitalmu"
     ],
     "stats_command": "pawang stats"
+  },
+  "skills": {
+    "style": "original",
+    "layout": "card",
+    "title": "Skill Set",
+    "subtitle": "dipilih untuk digital yang jinak",
+    "groups": {
+      "Bahasa & Web": [
+        "html5",
+        "css3",
+        "javascript",
+        "typescript",
+        "python",
+        "php"
+      ],
+      "Framework": [
+        "react",
+        "nextjs",
+        "tailwindcss",
+        "laravel",
+        "nodejs"
+      ],
+      "Sheet & Otomasi": [
+        "googlesheets",
+        "excel",
+        "whatsapp",
+        "gmail",
+        "telegram"
+      ],
+      "Database & Cloud": [
+        "mysql",
+        "postgresql",
+        "supabase",
+        "cloudflare"
+      ],
+      "Tools": [
+        "git",
+        "github",
+        "docker",
+        "figma",
+        "vscode"
+      ]
+    }
+  },
+  "featured": {
+    "source": "pinned",
+    "limit": 4
+  },
+  "articles": {
+    "feeds": [
+      "https://www.pawang.dev/rss.xml",
+      "https://www.pawang.dev/atom.xml"
+    ],
+    "limit": 3,
+    "subtitle": "Tulisan terbaru dari pawang.dev."
+  },
+  "activity": {
+    "limit": 5
+  },
+  "connect": {
+    "title": "Connect with me",
+    "subtitle": "Ayo ngobrol santai, tanpa istilah ribet.",
+    "style": "auto",
+    "links": {
+      "instagram": "pawang.dev",
+      "tiktok": "pawang.dev",
+      "threads": "pawang.dev",
+      "linkedin": "company/pawang-dev"
+    }
+  },
+  "portfolio": {
+    "title": "Portofolio",
+    "subtitle": "Hasil kerja untuk klien.",
+    "items": [
+      {
+        "tag": "WEBSITE",
+        "title": "Nama Klien A",
+        "description": "Company profile + Google Business",
+        "result": "Isi hasil yang benar-benar terjadi",
+        "url": "https://contoh.com/a"
+      },
+      {
+        "tag": "DASHBOARD",
+        "title": "Nama Klien B",
+        "description": "Laporan penjualan di Google Sheets",
+        "url": "https://contoh.com/b"
+      },
+      {
+        "tag": "OTOMASI",
+        "title": "Nama Klien C",
+        "description": "Pengingat jadwal via WhatsApp"
+      }
+    ]
   }
 }
