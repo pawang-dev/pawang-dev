@@ -56,7 +56,7 @@ text{font-family:'JetBrains Mono','SF Mono','Menlo','Consolas','DejaVu Sans Mono
 <text x="720" y="350">0</text>
 <text x="340" y="372"><tspan class="k">~ $</tspan> pawang --jinakkan DEV (digital, efisien, valid)<tspan class="cur" style="fill:#FF8A3D"> █</tspan></text>
 <line x1="30" y1="398" x2="930" y2="398" stroke="#E6D6BB"/>
-<text x="30" y="428" class="h">203 kontribusi dalam setahun terakhir</text>
+<text x="30" y="428" class="h">205 kontribusi dalam setahun terakhir</text>
 <text x="30" y="456" class="s">Nov</text>
 <text x="94" y="456" class="s">Des</text>
 <text x="158" y="456" class="s">Jan</text>
@@ -439,6 +439,7 @@ text{font-family:'JetBrains Mono','SF Mono','Menlo','Consolas','DejaVu Sans Mono
 <rect class="cell" style="animation-delay:0.78s" x="862" y="514" width="13" height="13" rx="3" fill="#FF8A3D" fill-opacity="0.55"/>
 <rect class="cell" style="animation-delay:0.78s" x="862" y="530" width="13" height="13" rx="3" fill="#FF8A3D" fill-opacity="1"/>
 <rect class="cell" style="animation-delay:0.78s" x="862" y="546" width="13" height="13" rx="3" fill="#FF8A3D" fill-opacity="0.3"/>
+<rect class="cell" style="animation-delay:0.78s" x="862" y="562" width="13" height="13" rx="3" fill="#FF8A3D" fill-opacity="0.3"/>
 <text x="30" y="600" class="s">github.com/pawang-dev</text>
 <text x="742" y="600" class="s">Sedikit</text>
 <rect x="798" y="590" width="13" height="13" rx="3" fill="#EBDDC4"/>
