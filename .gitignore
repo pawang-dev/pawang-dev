@@ -27,6 +27,9 @@ npm-debug.log*
 # Node
 node_modules/
 
+# Hasil render (SVG, WebP): hidup di branch "assets", bukan di main
+/assets/
+
 # Pratinjau lokal (data contoh, bukan data Pawang.dev): npm run preview
 preview/
 

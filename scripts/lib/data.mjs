@@ -12,13 +12,13 @@ export const fmtDate = (d) => {
 };
 
 export function loadIcon(root, name) {
-  const f = path.join(root, "assets", "icons", "png", name + ".png");
+  const f = path.join(root, "brand", "icons", "png", name + ".png");
   if (!fs.existsSync(f)) return null;
   return "data:image/png;base64," + fs.readFileSync(f).toString("base64");
 }
 
 export function loadBrand(root, name) {
-  const f = path.join(root, "assets", "brand", name + ".png");
+  const f = path.join(root, "brand", name + ".png");
   if (!fs.existsSync(f)) throw new Error("Aset brand hilang: " + name);
   return "data:image/png;base64," + fs.readFileSync(f).toString("base64");
 }

@@ -169,5 +169,6 @@
       "ink": "#C084FC"
     }
   ],
-  "featureLimit": 4
+  "featureLimit": 4,
+  "assetsBranch": "assets"
 }

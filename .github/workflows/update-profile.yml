@@ -9,8 +9,7 @@ on:
       - "scripts/**"
       - "profile.config.json"
       - "fonts/**"
-      - "assets/brand/**"
-      - "assets/icons/**"
+      - "brand/**"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/update-profile.yml"
@@ -40,6 +39,21 @@ jobs:
       - uses: actions/checkout@v7
         with:
           token: ${{ steps.app-token.outputs.token || github.token }}
+
+      # Hasil render (SVG, WebP) tidak disimpan di main, tetapi di branch yatim "assets".
+      # Ambil isi sebelumnya supaya animasi 3D dan artikel lama bisa dipertahankan bila sumbernya gagal.
+      - name: Ambil aset sebelumnya (branch assets)
+        env:
+          PUSH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+        run: |
+          rm -rf assets
+          if git ls-remote --exit-code --heads origin assets >/dev/null 2>&1; then
+            git clone --quiet --depth 1 --branch assets \
+              "https://x-access-token:${PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" assets
+            rm -rf assets/.git
+          else
+            mkdir -p assets
+          fi
 
       # Node bawaan runner dipakai apa adanya (butuh >= 20).
       - name: Pasang dependensi
@@ -74,12 +88,34 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit dan push jika ada perubahan
+      # Satu commit tanpa riwayat, di-force-push ke branch "assets". main tidak ikut penuh biner.
+      - name: Terbitkan aset ke branch assets
+        env:
+          PUSH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
         run: |
-          git add -A assets README.md
-          if git diff --cached --quiet; then
-            echo "Tidak ada perubahan."
+          set -euo pipefail
+          NAME="$(git config user.name)"
+          MAIL="$(git config user.email)"
+          URL="https://x-access-token:${PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          cd assets
+          git init -q -b assets
+          git add -A
+          git -c user.name="$NAME" -c user.email="$MAIL" commit -q -m "chore: render profile assets"
+          if git fetch -q --depth 1 "$URL" assets 2>/dev/null \
+             && [ "$(git rev-parse 'HEAD^{tree}')" = "$(git rev-parse 'FETCH_HEAD^{tree}')" ]; then
+            echo "Aset tidak berubah."
           else
-            git commit -m "chore: update profile"
+            git push -q --force "$URL" HEAD:refs/heads/assets
+            echo "Aset diterbitkan ke branch assets."
+          fi
+
+      # main hanya berubah bila README berubah (jarang).
+      - name: Commit README jika berubah
+        run: |
+          git add README.md
+          if git diff --cached --quiet; then
+            echo "README tidak berubah."
+          else
+            git commit -m "chore: update README"
             git push
           fi

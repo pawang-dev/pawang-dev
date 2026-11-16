@@ -55,6 +55,16 @@ ok("wrap tidak melewati lebar dan memberi elipsis", () => {
   assert.ok(lines[1].endsWith("…"));
 });
 
+ok("README memakai URL absolut bila ASSETS_BASE diset (hasil render ada di branch assets)", () => {
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), "pawang-base-"));
+  execFileSync(process.execPath, [path.join(root, "scripts/generate.mjs"), "--offline", "--no3d", "--out", out], { cwd: root, stdio: "pipe", env: { ...process.env, ASSETS_BASE: "https://raw.githubusercontent.com/o/r/assets/" } });
+  const readme = fs.readFileSync(path.join(out, "README.md"), "utf8");
+  const srcs = [...readme.matchAll(/(?:src|srcset)="([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(srcs.length > 15);
+  for (const u of srcs) assert.ok(u.startsWith("https://raw.githubusercontent.com/o/r/assets/") && !u.includes("//assets") && !u.includes("assets//"), "URL tidak sesuai: " + u);
+  fs.rmSync(out, { recursive: true, force: true });
+});
+
 ok("build kosong menghasilkan SVG sah, tanpa referensi luar, README tidak punya gambar hilang", () => {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), "pawang-"));
   execFileSync(process.execPath, [path.join(root, "scripts/generate.mjs"), "--offline", "--no3d", "--out", out], { cwd: root, stdio: "pipe" });

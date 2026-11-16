@@ -135,12 +135,17 @@ async function main() {
   for (const [name, svg] of files) fs.writeFileSync(path.join(outDir, name), svg);
 
   // README: tumpukan rapat tanpa celah.
-  const readmeDir = outDir === path.join(root, "assets") ? root : outDir;
+  const isDefaultOut = outDir === path.join(root, "assets");
+  const readmeDir = isDefaultOut ? root : outDir;
   const rel = path.relative(readmeDir, outDir).split(path.sep).join("/") || ".";
+  // Di Actions, hasil render hidup di branch "assets" (bukan di main), jadi README memakai URL raw absolut.
+  const base = process.env.ASSETS_BASE
+    || (isDefaultOut && process.env.GITHUB_REPOSITORY ? `https://raw.githubusercontent.com/${process.env.GITHUB_REPOSITORY}/${cfg.assetsBranch || "assets"}` : "");
+  const url = (f) => (base ? `${base.replace(/\/$/, "")}/${f}` : `${rel}/${f}`);
   const pic = (name, alt, w, extra = "") =>
     cfg.modes.length === 1
-      ? `<img src="${rel}/${name}-${cfg.modes[0]}.svg" width="${w}" alt="${esc(alt)}" align="top"${extra}>`
-      : `<picture><source media="(prefers-color-scheme: dark)" srcset="${rel}/${name}-dark.svg"><img src="${rel}/${name}-light.svg" width="${w}" alt="${esc(alt)}" align="top"${extra}></picture>`;
+      ? `<img src="${url(`${name}-${cfg.modes[0]}.svg`)}" width="${w}" alt="${esc(alt)}" align="top"${extra}>`
+      : `<picture><source media="(prefers-color-scheme: dark)" srcset="${url(`${name}-dark.svg`)}"><img src="${url(`${name}-light.svg`)}" width="${w}" alt="${esc(alt)}" align="top"${extra}></picture>`;
   const lines = [];
   const stackMeta = [...meta];
   if (keepOldArticles) {
@@ -152,7 +157,7 @@ async function main() {
   }
   for (const m of stackMeta) {
     if (m.kind === "anim")
-      lines.push(`<a href="${esc(m.href)}"><picture><source media="(prefers-reduced-motion: reduce)" srcset="${rel}/${m.name}-still.png"><img src="${rel}/${m.name}.webp" width="${m.w}" alt="${esc(m.alt)}" align="top"></picture></a><br>`);
+      lines.push(`<a href="${esc(m.href)}"><picture><source media="(prefers-reduced-motion: reduce)" srcset="${url(`${m.name}-still.png`)}"><img src="${url(`${m.name}.webp`)}" width="${m.w}" alt="${esc(m.alt)}" align="top"></picture></a><br>`);
     else if (m.kind === "single") lines.push(`<a href="${esc(m.href)}">${pic(m.name, m.alt, m.w)}</a><br>`);
     else {
       const per = m.perLine || m.items.length;
