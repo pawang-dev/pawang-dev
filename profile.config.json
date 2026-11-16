@@ -1,0 +1,173 @@
+{
+  "type": "business",
+  "login": "pawang-dev",
+  "theme": {
+    "id": 32,
+    "name": "Cyber-Nusantara / Mystical Terminal",
+    "custom": true
+  },
+  "modes": [
+    "dark"
+  ],
+  "language": "id",
+  "website": "https://www.pawang.dev",
+  "defaultLink": "https://www.pawang.dev",
+  "cta": {
+    "label": "Konsultasi Gratis",
+    "url": "https://www.pawang.dev/kontak-pawang"
+  },
+  "whatIs": {
+    "sentence": "Pawang.dev membuat website, SEO, dashboard Google Sheets, dan otomasi untuk pemilik usaha yang ingin digitalnya jinak, tanpa istilah ribet.",
+    "find": "Di bawah: layanan, proyek, cuaca kontribusi, dan tulisan terbaru."
+  },
+  "services": [
+    {
+      "short": "Web",
+      "accent": "#06B6D4",
+      "icons": [
+        "astro",
+        "cloudflare"
+      ],
+      "liar": "Situs lemot, UI/UX berantakan, sering down.",
+      "mantra": "Website cepat, rapi, mudah diurus: company profile, landing page, toko online."
+    },
+    {
+      "short": "Sheet",
+      "accent": "#10B981",
+      "icons": [
+        "googlesheets",
+        "excel"
+      ],
+      "liar": "Data penjualan berantakan dan rumus #ERROR! di mana-mana.",
+      "mantra": "Spreadsheet tertata, dashboard Google Sheets, laporan otomatis. Angka jadi jelas."
+    },
+    {
+      "short": "SEO",
+      "accent": "#FACC15",
+      "icons": [
+        "googlesearchconsole",
+        "google-business-profile"
+      ],
+      "liar": "Website ada, tapi tidak pernah ketemu di Google.",
+      "mantra": "Riset kata kunci, struktur, konten, Google Business Profile. Nongkrong di halaman pertama, organik."
+    },
+    {
+      "short": "Otomasi",
+      "accent": "#A855F7",
+      "icons": [
+        "whatsapp",
+        "gmail"
+      ],
+      "liar": "Rekap diketik ulang, pesan dibalas satu per satu.",
+      "mantra": "Integrasi API, bot WhatsApp, form dan rekap otomatis. Kerja berulang jalan sendiri.",
+      "ink": "#C084FC"
+    },
+    {
+      "short": "Rawat",
+      "accent": "#F97316",
+      "icons": [
+        "googleanalytics"
+      ],
+      "liar": "Proyek selesai, lalu tidak ada yang jaga.",
+      "mantra": "Maintenance rutin, backup data, keamanan sistem 24/7. Tetap ada yang jaga."
+    }
+  ],
+  "sections": {
+    "articles": {
+      "enabled": true,
+      "feed": "https://www.pawang.dev/rss.xml",
+      "limit": 3
+    },
+    "portfolio": {
+      "enabled": false
+    },
+    "cv": {
+      "enabled": false
+    }
+  },
+  "socials": [
+    {
+      "label": "Instagram",
+      "icon": "instagram",
+      "url": "https://www.instagram.com/pawang.dev/",
+      "short": "Instagram"
+    },
+    {
+      "label": "TikTok",
+      "icon": "tiktok",
+      "url": "https://www.tiktok.com/@pawang.dev?lang=id-ID",
+      "short": "TikTok"
+    },
+    {
+      "label": "LinkedIn",
+      "icon": "linkedin",
+      "url": "https://www.linkedin.com/in/pawangdev/",
+      "short": "LinkedIn"
+    },
+    {
+      "label": "X",
+      "icon": "x",
+      "url": "https://x.com/pawangdev",
+      "short": "X"
+    },
+    {
+      "label": "Threads",
+      "icon": "threads",
+      "url": "https://www.threads.com/@pawang.dev",
+      "short": "Threads"
+    },
+    {
+      "label": "Facebook",
+      "icon": "facebook",
+      "url": "https://web.facebook.com/pawang.dev",
+      "short": "Facebook"
+    },
+    {
+      "label": "Pinterest",
+      "icon": "pinterest",
+      "url": "https://www.pinterest.com/pawangdev/",
+      "short": "Pinterest"
+    },
+    {
+      "label": "Google Business Profile",
+      "icon": "google-business-profile",
+      "url": "https://g.page/r/CWkDqlOkLsutEBM/review",
+      "short": "Ulasan Google"
+    }
+  ],
+  "privacy": {
+    "privateRepos": "never-shown",
+    "token": "none (public data only)"
+  },
+  "schedule": "17 0 * * *",
+  "motion": {
+    "mode": "svg-pseudo-3d",
+    "reducedMotionFallback": true,
+    "renderedHero": false
+  },
+  "hero": {
+    "line1": "Digitalmu liar?",
+    "line2": "Serahkan ke Pawang.",
+    "sub": "Website lemot, data berantakan, kerjaan berulang? Kami bikin website, SEO, dashboard, dan sistem otomatis yang jinak, rapi, dan gampang dipakai. Tanpa istilah ribet.",
+    "prompt": "pawang jinakkan --digitalmu"
+  },
+  "tiers": [
+    {
+      "name": "Jinak",
+      "accent": "#10B981",
+      "desc": "dasar, untuk yang baru mulai"
+    },
+    {
+      "name": "Piawai",
+      "accent": "#FACC15",
+      "desc": "menengah, fitur lebih lengkap"
+    },
+    {
+      "name": "Sakti",
+      "accent": "#A855F7",
+      "desc": "premium, custom penuh",
+      "ink": "#C084FC"
+    }
+  ],
+  "featureLimit": 4
+}

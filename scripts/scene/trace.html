@@ -1,0 +1,119 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"JBM";font-weight:400;src:url(/fonts/jetbrains-mono-latin-400-normal.woff)}
+@font-face{font-family:"JBM";font-weight:700;src:url(/fonts/jetbrains-mono-latin-700-normal.woff)}
+html,body{margin:0;background:#0B0E14;overflow:hidden;width:800px;height:300px}
+#win{position:absolute;left:20px;top:0;width:760px;height:300px;box-sizing:border-box;border-left:1.4px solid #1F2633;border-right:1.4px solid #1F2633;
+ background:radial-gradient(ellipse 60% 55% at 50% 100%,rgba(16,185,129,.10),rgba(16,185,129,0) 70%),#151A23}
+#scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 4px);pointer-events:none}
+canvas{position:absolute;left:0;top:0}
+#ov{position:absolute;left:0;top:0;width:760px;height:300px;overflow:hidden}
+.m{position:absolute;font:400 10.5px JBM,monospace;color:#64748B;transform:translate(-50%,-50%);white-space:nowrap}
+.br{position:absolute;font:400 44px JBM,monospace;color:#2B3548;transform:translate(-50%,-52%);line-height:1}
+.n{position:absolute;font:700 11px JBM,monospace;color:#FACC15;transform:translate(-50%,-50%);white-space:nowrap}
+</style></head>
+<body><div id="win"><canvas id="c" width="760" height="300"></canvas><div id="scan"></div><div id="ov"></div></div>
+<script type="module">
+import * as THREE from "/three/build/three.module.js";
+const W = 760, H = 300, TAU = Math.PI * 2;
+const OK = 0x10B981, GOLD = 0xFACC15, ORG = 0xFF8A3D;
+let S = null;
+
+function glowTexture(hex) {
+  const c = document.createElement("canvas"); c.width = c.height = 128;
+  const g = c.getContext("2d"), r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  const col = "#" + hex.toString(16).padStart(6, "0");
+  r.addColorStop(0, col + "ff"); r.addColorStop(0.35, col + "55"); r.addColorStop(1, col + "00");
+  g.fillStyle = r; g.fillRect(0, 0, 128, 128);
+  return new THREE.CanvasTexture(c);
+}
+
+window.init = (d) => {
+  const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("c"), antialias: true, alpha: true });
+  renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.setClearColor(0x000000, 0);
+  const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x151A23, 12, 22);
+  const camera = new THREE.PerspectiveCamera(32, W / H, 0.1, 60);
+  const N = Math.max(2, d.weeks.length), SPAN = 13, step = SPAN / (N - 1);
+  const X = (i) => (i - (N - 1) / 2) * step;
+  const hOf = (n) => Math.min(1.9, 0.05 + 0.19 * Math.sqrt(Math.max(0, n)));
+
+  // lantai grid
+  const pts = [];
+  for (let z = -5; z <= 3.01; z += 0.5) pts.push(-7, 0, z, 7, 0, z);
+  for (let x = -7; x <= 7.01; x += 0.7) pts.push(x, 0, -5, x, 0, 3);
+  const gg = new THREE.BufferGeometry(); gg.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+  scene.add(new THREE.LineSegments(gg, new THREE.LineBasicMaterial({ color: 0x2B3548, transparent: true, opacity: 0.55 })));
+
+  // batang mingguan
+  const bars = [], refl = new THREE.Group(), main = new THREE.Group();
+  const edgeMat = new THREE.LineBasicMaterial({ color: 0x6EE7B7, transparent: true, opacity: 0.45 });
+  for (let i = 0; i < N; i++) {
+    const n = d.weeks[i] ?? 0, h = hOf(n);
+    const side = new THREE.MeshBasicMaterial({ color: OK, transparent: true, opacity: 0.32 });
+    const top = new THREE.MeshBasicMaterial({ color: 0x34D399, transparent: true, opacity: 0.8 });
+    const mats = [side, side, top, side, side, side];
+    const g = new THREE.BoxGeometry(step * 0.62, h, 0.34);
+    const m = new THREE.Mesh(g, mats); m.position.set(X(i), h / 2, 0); main.add(m);
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat); e.position.copy(m.position); main.add(e);
+    const r = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: OK, transparent: true, opacity: 0.045 }));
+    r.position.set(X(i), -h / 2, 0); refl.add(r);
+    bars.push({ x: X(i), h, side, top });
+  }
+  scene.add(main, refl);
+
+  // garis denyut di puncak batang (tabung bercahaya)
+  const curve = new THREE.CatmullRomCurve3(bars.map((b) => new THREE.Vector3(b.x, b.h + 0.01, 0.2)), false, "catmullrom", 0.2);
+  scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve, N * 5, 0.022, 6, false), new THREE.MeshBasicMaterial({ color: 0x6EE7B7 })));
+  scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve, N * 5, 0.075, 8, false), new THREE.MeshBasicMaterial({ color: OK, transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending, depthWrite: false })));
+
+  // sapuan osiloskop
+  const sweep = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 3.4), new THREE.MeshBasicMaterial({ color: OK, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+  sweep.position.set(0, 1.7, 0.25); scene.add(sweep);
+
+  // petir yang ditangkap
+  const shape = new THREE.Shape();
+  [[0.16, 1], [-0.42, -0.04], [-0.04, -0.04], [-0.24, -1], [0.44, 0.14], [0.05, 0.14], [0.32, 1]].forEach(([x, y], k) => (k ? shape.lineTo(x, y) : shape.moveTo(x, y)));
+  const boltGeo = new THREE.ShapeGeometry(shape), glowTex = glowTexture(GOLD);
+  const ov = document.getElementById("ov"), bolts = [];
+  d.bolts.forEach((b, k) => {
+    const x = X(b.wi), top = bars[b.wi].h, grp = new THREE.Group(); grp.position.set(x, top + 0.95, 0.25);
+    const mat = new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.9, side: THREE.DoubleSide });
+    const mesh = new THREE.Mesh(boltGeo, mat); mesh.scale.set(0.46, 0.46, 1);
+    const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false })); glow.scale.set(2.0, 2.0, 1);
+    grp.add(glow, mesh); scene.add(grp);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.022, 8, 28), new THREE.MeshBasicMaterial({ color: ORG })); ring.rotation.x = Math.PI / 2; ring.position.set(x, top + 0.02, 0.2); scene.add(ring);
+    const leash = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.5, 6), new THREE.MeshBasicMaterial({ color: ORG, transparent: true, opacity: 0.8 })); leash.position.set(x, top + 0.27, 0.25); scene.add(leash);
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 8), new THREE.MeshBasicMaterial({ color: GOLD })); dot.position.set(x, top + 0.02, 0.2); scene.add(dot);
+    const l = document.createElement("div"), r = document.createElement("div"), n = document.createElement("div");
+    l.className = "br"; l.textContent = "{"; r.className = "br"; r.textContent = "}"; n.className = "n"; n.textContent = "×" + b.n;
+    ov.append(l, r, n);
+    bolts.push({ grp, mat, glow, ring, l, r, n, k, x, top });
+  });
+  const mons = d.months.map((m) => { const e = document.createElement("div"); e.className = "m"; e.textContent = m.label; ov.append(e); return { e, x: X(m.wi) }; });
+  S = { renderer, scene, camera, bars, sweep, bolts, mons, N, X };
+  window.frame(0);
+};
+
+const proj = (v) => { const p = v.clone().project(S.camera); return [(p.x * 0.5 + 0.5) * W, (-p.y * 0.5 + 0.5) * H]; };
+window.frame = (t) => {
+  const { renderer, scene, camera, bars, sweep, bolts, mons } = S;
+  const yaw = 0.2 * Math.sin(TAU * t), R = 10.2;
+  camera.position.set(R * Math.sin(yaw), 2.3 + 0.2 * Math.cos(TAU * t), R * Math.cos(yaw));
+  camera.lookAt(0, 1.0, 0); camera.updateMatrixWorld();
+  const sx = -5.8 + 11.6 * t; sweep.position.x = sx; sweep.rotation.y = yaw;
+  sweep.material.opacity = 0.55 * Math.min(1, t * 8, (1 - t) * 8);
+  bars.forEach((b) => { const g = Math.exp(-Math.pow((b.x - sx) / 0.6, 2)); b.side.opacity = 0.3 + 0.35 * g; b.top.opacity = 0.75 + 0.25 * g; });
+  bolts.forEach((b) => {
+    const ph = ((t + b.k * 0.31) % 1), f = Math.pow(Math.max(0, 1 - Math.abs(ph - 0.5) / 0.04), 2);
+    b.mat.opacity = 0.62 + 0.38 * f; b.glow.material.opacity = 0.3 + 0.55 * f; b.glow.scale.setScalar(2.0 + 0.9 * f);
+    b.grp.position.y = b.top + 0.95 + 0.04 * Math.sin(TAU * (t + b.k * 0.2)); b.grp.rotation.y = yaw; b.ring.rotation.z = TAU * t;
+    const c = proj(new THREE.Vector3(b.x, b.top + 0.95, 0.25));
+    b.l.style.left = c[0] - 26 + "px"; b.l.style.top = c[1] + "px"; b.r.style.left = c[0] + 26 + "px"; b.r.style.top = c[1] + "px";
+    const a = proj(new THREE.Vector3(b.x, b.top + 1.62, 0.25)); b.n.style.left = a[0] + "px"; b.n.style.top = a[1] + "px";
+  });
+  mons.forEach((m) => { const c = proj(new THREE.Vector3(m.x, 0, 1.35)); m.e.style.left = c[0] + "px"; m.e.style.top = c[1] + "px"; m.e.style.visibility = c[0] < 26 || c[0] > W - 26 ? "hidden" : "visible"; });
+  renderer.render(scene, camera);
+};
+window.ready = true;
+</script></body></html>

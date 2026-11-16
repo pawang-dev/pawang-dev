@@ -2,14 +2,17 @@ name: Update profile
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "17 0 * * *" # sekali sehari, 07.17 WIB
   workflow_dispatch:
   push:
     paths:
-      - "assets/data/**"
-      - "assets/images/**"
-      - "assets/vendor/**"
       - "scripts/**"
+      - "profile.config.json"
+      - "fonts/**"
+      - "assets/brand/**"
+      - "assets/icons/**"
+      - "package.json"
+      - "package-lock.json"
       - ".github/workflows/update-profile.yml"
 
 permissions:
@@ -38,19 +41,22 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token || github.token }}
 
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.12"
+      # Node bawaan runner dipakai apa adanya (butuh >= 20).
+      - name: Pasang dependensi
+        run: npm ci --no-audit --no-fund
 
-      - name: Pasang Pillow (potret pixel maskot)
-        run: python -m pip install --quiet pillow
+      # Chromium untuk render 3D (three.js + WebGL). Bila gagal, build tetap jalan:
+      # animasi 3D sebelumnya dipertahankan, atau dipakai SVG 2D.
+      - name: Pasang Chromium (render 3D)
+        continue-on-error: true
+        run: npx playwright-core install --with-deps chromium || npx playwright-core install chromium
 
       - name: Build
         env:
           GH_USER: ${{ github.repository_owner }}
-          # GH_STATS_TOKEN (opsional) membuat kontribusi privat ikut terhitung
-          GH_TOKEN: ${{ secrets.GH_STATS_TOKEN || secrets.GITHUB_TOKEN }}
-        run: python scripts/build_all.py
+          # Sengaja hanya GITHUB_TOKEN: data publik saja. Repo privat tidak dibaca dan tidak pernah tampil.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/generate.mjs
 
       - name: Identitas git (GitHub App)
         if: env.HAS_APP == 'true'
@@ -70,7 +76,7 @@ jobs:
 
       - name: Commit dan push jika ada perubahan
         run: |
-          git add -A assets/svg assets/cache README.md
+          git add -A assets README.md
           if git diff --cached --quiet; then
             echo "Tidak ada perubahan."
           else
