@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "@fontsource/jetbrains-mono": "^5.1.0",
-    "@fontsource/plus-jakarta-sans": "5.1.0"
+    "@fontsource/plus-jakarta-sans": "5.3.0"
   }
 }
