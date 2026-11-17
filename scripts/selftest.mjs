@@ -65,6 +65,20 @@ ok("README memakai URL absolut bila ASSETS_BASE diset (hasil render ada di branc
   fs.rmSync(out, { recursive: true, force: true });
 });
 
+ok("README statis terhadap data: angka dan stempel waktu tidak boleh masuk (hindari commit README harian)", () => {
+  const build = (flagName) => {
+    const out = fs.mkdtempSync(path.join(os.tmpdir(), "pawang-static-"));
+    execFileSync(process.execPath, [path.join(root, "scripts/generate.mjs"), flagName, "--no3d", "--out", out], { cwd: root, stdio: "pipe", env: { ...process.env, ASSETS_BASE: "https://raw.githubusercontent.com/o/r/assets" } });
+    const lines = fs.readFileSync(path.join(out, "README.md"), "utf8").split("\n");
+    fs.rmSync(out, { recursive: true, force: true });
+    // baris per-item (repo, artikel) memang mengikuti isi akun; sisanya harus identik
+    return lines.filter((l) => !/(mantra-\d|article-\d|articles-head)/.test(l));
+  };
+  const a = build("--offline"), b = build("--sample");
+  assert.deepEqual(a, b, "README berubah mengikuti data (cek alt/href yang memuat angka atau waktu)");
+  assert.ok(!a.some((l) => /\d{2}\.\d{2} WIB|kontribusi \d|aktivitas dalam/.test(l)), "alt memuat angka/waktu");
+});
+
 ok("build kosong menghasilkan SVG sah, tanpa referensi luar, README tidak punya gambar hilang", () => {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), "pawang-"));
   execFileSync(process.execPath, [path.join(root, "scripts/generate.mjs"), "--offline", "--no3d", "--out", out], { cwd: root, stdio: "pipe" });

@@ -148,7 +148,7 @@ export function status(P, ctx) {
     text("jk800", 22, "Status Pawang", M + 130, y0 + 70, { fill: P.ink }) +
     text("in600", 15, l1, M + 130 + width("jk800", 22, "Status Pawang") + 16, y0 + 69, { fill: P.ink }) +
     text("in400", 14, fit("in400", 14, l2, 560), M + 130, y0 + 94, { fill: P.mute });
-  return { name: "status", alt: `Status Pawang: ${l1} ${l2}`, svg: doc(P, { h: H, label: "Status Pawang", css, body }) };
+  return { name: "status", alt: "Status Pawang", svg: doc(P, { h: H, label: "Status Pawang", css, body }) };
 }
 
 // ------------------------------------------------------------------ TENTANG (jendela README.md)
