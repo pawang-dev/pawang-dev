@@ -112,7 +112,7 @@ const TRACE_LABEL = "pawang@dev: ~/log $ ./detak-server";
 export function traceTop(P, ctx, td) {
   const h = 8 + 34 + 76;
   const sub = traceSub(ctx.data, td);
-  return { name: "trace-top", alt: `Detak Server: ${sub}`, svg: doc(P, { h, label: "Detak Server", body: winTop(P, h, TRACE_LABEL) + heading(P, "Detak Server", sub) }) };
+  return { name: "trace-top", alt: "Detak Server: kontribusi setahun terakhir", svg: doc(P, { h, label: "Detak Server", body: winTop(P, h, TRACE_LABEL) + heading(P, "Detak Server", sub) }) };
 }
 export function traceBottom(P, ctx, td) {
   const total = ctx.data.total ?? ctx.data.days.reduce((a, d) => a + d.n, 0);
@@ -120,7 +120,7 @@ export function traceBottom(P, ctx, td) {
     ? `kontribusi ${fmtInt(total)}  ·  hari aktif ${fmtInt(td.active)}  ·  petir ${td.bolts.length} (ditangkap)`
     : "# belum ada hujan. uptime tenang";
   const end = 46;
-  return { name: "trace-bottom", alt: status, svg: doc(P, { h: end + 14, label: "Status detak server", body: winBottom(P, end + 14, end) + text("m400", 12, status, WX + 24, 22, { fill: P.mute }) }) };
+  return { name: "trace-bottom", alt: "Statistik detak server", svg: doc(P, { h: end + 14, label: "Status detak server", body: winBottom(P, end + 14, end) + text("m400", 12, status, WX + 24, 22, { fill: P.mute }) }) };
 }
 /** Cadangan 2D bila Chromium/WebGL tidak tersedia. Lebar 800, tinggi 300, bingkai sama dengan versi 3D. */
 export function traceFallback(P, ctx, td) {
@@ -163,7 +163,7 @@ export function activityWindow(P, ctx) {
     `<path d="M${WX} ${topH}H${WX + WW}" stroke="${P.cardBorder}" stroke-dasharray="3 6"/>` +
     text("m400", 12, "# persen = porsi dari total aktivitas", WX + 24, topH + 22, { fill: "#64748B" }) +
     `<path d="M${WX + 0.7} ${end - RAD}Q${WX + 0.7} ${end - 0.7} ${WX + RAD} ${end - 0.7}H${WX + WW - RAD}Q${WX + WW - 0.7} ${end - 0.7} ${WX + WW - 0.7} ${end - RAD}" fill="none" stroke="${P.cardBorder}" stroke-width="1.4"/>`;
-  return { name: "meter", alt: `Meter Angin: ${sub}`, svg: doc(P, { h: H, label: "Meter Angin", css: STEAM_CSS, body }) };
+  return { name: "meter", alt: "Meter Angin: aktivitas setahun terakhir", svg: doc(P, { h: H, label: "Meter Angin", css: STEAM_CSS, body }) };
 }
 
 // ============================================================ FOOTER: status bar tmux/powerline
@@ -193,5 +193,5 @@ export function footerBar(P, ctx) {
     `<g clip-path="url(#${clipId})"><rect x="${WX}" y="${y}" width="${WW}" height="${h}" fill="#0F131B"/>${out}</g>` +
     `<rect x="${WX + 0.7}" y="${y + 0.7}" width="${WW - 1.4}" height="${h - 1.4}" rx="10" fill="none" stroke="${P.cardBorder}" stroke-width="1.4"/>` +
     text("m700", 12.5, tag, WX + WW - 20, y + 24, { fill: P.accent, anchor: "end" });
-  return { name: "footer", alt: `Pawang.dev. ${tag} Diperbarui otomatis ${stamp}`, svg: doc(P, { h: 84, label: `Pawang.dev. ${tag}`, body }) };
+  return { name: "footer", alt: `Pawang.dev. ${tag}`, svg: doc(P, { h: 84, label: `Pawang.dev. ${tag}`, body }) };
 }

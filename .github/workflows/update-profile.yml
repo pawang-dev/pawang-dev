@@ -5,6 +5,7 @@ on:
     - cron: "17 0 * * *" # sekali sehari, 07.17 WIB
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - "scripts/**"
       - "profile.config.json"
@@ -23,6 +24,9 @@ concurrency:
 
 jobs:
   build:
+    # Hanya dari main (jadwal, tombol, atau push ke main). Cabang lain, misalnya milik Dependabot,
+    # tidak boleh menerbitkan aset atau meng-commit apa pun.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-26.04
     env:
       HAS_APP: ${{ secrets.APP_CLIENT_ID != '' && secrets.APP_PRIVATE_KEY != '' }}

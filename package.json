@@ -7,7 +7,8 @@
     "generate": "node scripts/generate.mjs",
     "offline": "node scripts/generate.mjs --offline",
     "preview": "node scripts/generate.mjs --sample --out preview",
-    "test": "node scripts/selftest.mjs"
+    "test": "node scripts/selftest.mjs",
+    "test:3d": "node scripts/selftest-3d.mjs"
   },
   "engines": {
     "node": ">=20"
@@ -18,9 +19,5 @@
     "playwright-core": "^1.49.0",
     "sharp": "0.33.5",
     "three": "^0.160.0"
-  },
-  "devDependencies": {
-    "@fontsource/jetbrains-mono": "^5.1.0",
-    "@fontsource/plus-jakarta-sans": "5.1.0"
   }
 }

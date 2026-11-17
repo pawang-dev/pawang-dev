@@ -14,7 +14,9 @@ Repo ini adalah profil GitHub `pawang-dev/pawang-dev`. `README.md` dan semua has
 - Urutan: ambil isi branch `assets` sebelumnya, build, terbitkan ke branch `assets` bila berubah, lalu commit `README.md` ke `main` hanya bila README berubah.
 - Bot memakai GitHub App Anda: rahasia `APP_CLIENT_ID` dan `APP_PRIVATE_KEY`. Tanpa keduanya, commit memakai `github-actions[bot]`.
 - Data hanya yang publik (`GITHUB_TOKEN`). Rahasia `GH_STATS_TOKEN` dari versi lama sengaja **tidak** dipakai lagi, supaya aktivitas dan nama repo privat tidak ikut tergambar.
-- Workflow "Test" menjalankan `npm test` (tanpa jaringan dan tanpa token).
+- Workflow hanya jalan dari `main`; cabang lain (misalnya milik Dependabot) tidak menerbitkan aset atau meng-commit apa pun.
+- README sengaja **statis terhadap data**: teks `alt` tidak memuat angka atau waktu, jadi README hanya berubah bila daftar repo atau artikel berubah. Diuji oleh `npm test`.
+- Workflow "Test" menjalankan `npm test` (tanpa jaringan dan tanpa token) dan `npm run test:3d` (render 3D sungguhan di Chromium), supaya bump `three`, `playwright-core`, dan `opentype.js` dari Dependabot teruji sebelum digabung.
 - Run pertama membuat branch `assets`. Sebelum itu gambar di README belum ada (404).
 
 ## Desain
@@ -31,6 +33,7 @@ Tema **Cyber-Nusantara / Mystical Terminal**, hanya mode gelap (latar SVG selalu
 Section "Detak Server" memakai adegan **three.js + WebGL** yang dirender di Actions dengan Chromium headless (SwiftShader), lalu disimpan sebagai animasi **WebP** (`trace-3d.webp` (branch `assets`), 54 frame, berulang). GitHub tidak menjalankan JavaScript atau WebGL di README, jadi yang tampil adalah hasil render, bukan WebGL langsung. Pembaca dengan "reduce motion" melihat gambar diam (`trace-3d-still.png`).
 - Ridge hijau = kontribusi per pekan, kamera mengorbit pelan, petir emas dalam `{ }` = hari paling ramai yang sudah "ditangkap" (cincin oranye).
 - Bila render gagal: animasi sebelumnya dipertahankan; bila belum pernah ada, dipakai SVG 2D.
+- Uji: `npm run test:3d` (butuh Chromium).
 - Lokal: `npm run generate` (butuh Chromium; set `PAWANG_CHROME=/jalur/ke/chrome` bila perlu). `--no3d` melewati render 3D.
 - Animasi dirakit dari 54 frame WebP dengan `node-webpmux` (loop tak berhingga, 18 fps).
 
