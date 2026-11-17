@@ -27,6 +27,18 @@ npm-debug.log*
 # Node
 node_modules/
 
+# Python
+__pycache__/
+*.pyc
+
+# Arsip & patch
+*.patch
+*.bundle
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
 # Hasil render (SVG, WebP): hidup di branch "assets", bukan di main
 /assets/
 
